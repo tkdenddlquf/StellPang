@@ -130,7 +130,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PangSprite_Idle_0
+      name: PastelSprite_Idle_0
       rect:
         serializedVersion: 2
         x: 0
@@ -145,14 +145,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 02be642d6961e4e45baac0b3f17b9d3f
-      internalID: -935581936
+      spriteID: ca84851dd951a7e4e9b4c6ae15ba15dd
+      internalID: -2021974586
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PangSprite_Idle_1
+      name: PastelSprite_Idle_1
       rect:
         serializedVersion: 2
         x: 0
@@ -167,14 +167,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9ca1eb719e9e676428c849e75e044531
-      internalID: 86016435
+      spriteID: fa8731a47c6eade4ba7e1c3dcf87ff85
+      internalID: -2067644529
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PangSprite_Idle_2
+      name: PastelSprite_Idle_2
       rect:
         serializedVersion: 2
         x: 256
@@ -189,14 +189,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c018ed972d0b975408fd3d768eb39bad
-      internalID: -1635593962
+      spriteID: 07eb9acd765512c4697c2eded31cffb1
+      internalID: 1568863588
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PangSprite_Idle_3
+      name: PastelSprite_Idle_3
       rect:
         serializedVersion: 2
         x: 0
@@ -211,14 +211,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 25eb9d0bd935cfd42bbfb3b04c5996d3
-      internalID: -866148255
+      spriteID: 558d5da2be551ab4792f60e0d7fe1ebe
+      internalID: -656721188
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PangSprite_Idle_4
+      name: PastelSprite_Idle_4
       rect:
         serializedVersion: 2
         x: 256
@@ -233,14 +233,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1a6d23e7b61492d4caa9928fe5cee7a5
-      internalID: -1332173212
+      spriteID: f26eed5cc41f6fd428115ae2c866564d
+      internalID: -1676280479
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PangSprite_Idle_5
+      name: PastelSprite_Idle_5
       rect:
         serializedVersion: 2
         x: 512
@@ -255,14 +255,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3c89cc2c561a4724b83c278295825028
-      internalID: -642076284
+      spriteID: 4ff1fd7a0f2bead43bc13dd5c44b9ff0
+      internalID: 1220656391
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PangSprite_Idle_6
+      name: PastelSprite_Idle_6
       rect:
         serializedVersion: 2
         x: 768
@@ -277,14 +277,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6b48db0aba2b66948a2a7d715a6d11ff
-      internalID: 846081344
+      spriteID: 1d7791d039d2c3a43b0e10e66cf8cd32
+      internalID: -1431338105
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PangSprite_Idle_7
+      name: PastelSprite_Idle_7
       rect:
         serializedVersion: 2
         x: 0
@@ -299,14 +299,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4329bec95c39b3d41bee6a4e8d0894c7
-      internalID: -1624287500
+      spriteID: 931594136d3b579478144c4de60b63c2
+      internalID: 2106335934
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PangSprite_Idle_8
+      name: PastelSprite_Idle_8
       rect:
         serializedVersion: 2
         x: 256
@@ -321,14 +321,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0f4cff97742bd214f86832378724c4a0
-      internalID: -364535732
+      spriteID: e12aa8ff685227d48ac7e01014beb338
+      internalID: 1157529289
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PangSprite_Idle_9
+      name: PastelSprite_Idle_9
       rect:
         serializedVersion: 2
         x: 512
@@ -343,14 +343,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7be00490ca79ed746acf577db1613edd
-      internalID: -234397726
+      spriteID: e1099eff46d7d3646b0a1656b8e6b9ee
+      internalID: 172520407
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PangSprite_Idle_10
+      name: PastelSprite_Idle_10
       rect:
         serializedVersion: 2
         x: 768
@@ -365,8 +365,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 29bf667ae71c1bc4697bb12556a5b9e5
-      internalID: -477540337
+      spriteID: edc1b3a63ec4e154bb07c7d902cdd98f
+      internalID: 1159686834
       vertices: []
       indices: 
       edges: []
@@ -382,18 +382,20 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
     nameFileIdTable:
-      PangSprite_Idle_0: -935581936
-      PangSprite_Idle_1: 86016435
-      PangSprite_Idle_10: -477540337
-      PangSprite_Idle_2: -1635593962
-      PangSprite_Idle_3: -866148255
-      PangSprite_Idle_4: -1332173212
-      PangSprite_Idle_5: -642076284
-      PangSprite_Idle_6: 846081344
-      PangSprite_Idle_7: -1624287500
-      PangSprite_Idle_8: -364535732
-      PangSprite_Idle_9: -234397726
+      PastelSprite_Idle_0: -2021974586
+      PastelSprite_Idle_1: -2067644529
+      PastelSprite_Idle_10: 1159686834
+      PastelSprite_Idle_2: 1568863588
+      PastelSprite_Idle_3: -656721188
+      PastelSprite_Idle_4: -1676280479
+      PastelSprite_Idle_5: 1220656391
+      PastelSprite_Idle_6: -1431338105
+      PastelSprite_Idle_7: 2106335934
+      PastelSprite_Idle_8: 1157529289
+      PastelSprite_Idle_9: 172520407
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

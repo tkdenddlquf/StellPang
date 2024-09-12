@@ -130,7 +130,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PangSprite_Pang_0
+      name: PastelSprite_Match_0
       rect:
         serializedVersion: 2
         x: 0
@@ -145,14 +145,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 109cfe01ac4c3c04dbc478c43b9e073a
-      internalID: -1291776803
+      spriteID: 32cce78ab57f3a24fab7c23868b4d9fb
+      internalID: 943764193
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PangSprite_Pang_1
+      name: PastelSprite_Match_1
       rect:
         serializedVersion: 2
         x: 0
@@ -167,14 +167,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ee741d4592352c145b481d55fc401e7f
-      internalID: 217906561
+      spriteID: 216f805cc4f1584489861f41e362413c
+      internalID: 264592960
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PangSprite_Pang_2
+      name: PastelSprite_Match_2
       rect:
         serializedVersion: 2
         x: 256
@@ -189,14 +189,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 419b4387818671442986c1637145dd55
-      internalID: -669984527
+      spriteID: 90d815be3a2177a4e98548fd3530bcdd
+      internalID: 1278227859
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PangSprite_Pang_3
+      name: PastelSprite_Match_3
       rect:
         serializedVersion: 2
         x: 0
@@ -211,14 +211,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8afd4badb7b5a6740a228c073d80a1b3
-      internalID: -1608319400
+      spriteID: 62697e7e4be05e5468287ea5dca18c21
+      internalID: 1162712265
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PangSprite_Pang_4
+      name: PastelSprite_Match_4
       rect:
         serializedVersion: 2
         x: 256
@@ -233,14 +233,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d17a93f5094f668488c10f2e254518f6
-      internalID: -757447317
+      spriteID: 9e95e72467886644f9390727d78773b5
+      internalID: 2098962821
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PangSprite_Pang_5
+      name: PastelSprite_Match_5
       rect:
         serializedVersion: 2
         x: 512
@@ -255,14 +255,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bbd05d6afcf982243882d8e35fde0dcd
-      internalID: -170859998
+      spriteID: 03d89b20b6071c04f93ea13b7806d140
+      internalID: 1373215431
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PangSprite_Pang_6
+      name: PastelSprite_Match_6
       rect:
         serializedVersion: 2
         x: 768
@@ -277,14 +277,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7c51efe371375c148b58c757b4e8f720
-      internalID: 1780999711
+      spriteID: d0064231b4769a0458539470c0776df5
+      internalID: -1125337857
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PangSprite_Pang_7
+      name: PastelSprite_Match_7
       rect:
         serializedVersion: 2
         x: 0
@@ -299,14 +299,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 295161503f884334199750dbc6bb3c0d
-      internalID: 1914086056
+      spriteID: eb17a9f81bd70ff419f91fcf366b812d
+      internalID: 760324497
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PangSprite_Pang_8
+      name: PastelSprite_Match_8
       rect:
         serializedVersion: 2
         x: 256
@@ -321,14 +321,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dac41833ab2699b48884fdb6009dea90
-      internalID: -2107456429
+      spriteID: b03452c433060ca4097b1690be99db8d
+      internalID: -258952697
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PangSprite_Pang_9
+      name: PastelSprite_Match_9
       rect:
         serializedVersion: 2
         x: 512
@@ -343,14 +343,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ea95a08000cfaf14685ad632acf9a2b7
-      internalID: 1395319730
+      spriteID: 2f2e50b924e2fe54595df3094ae2e1b4
+      internalID: -1283054339
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PangSprite_Pang_10
+      name: PastelSprite_Match_10
       rect:
         serializedVersion: 2
         x: 768
@@ -365,8 +365,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2e371e797e746ba4f8fcdf71172c9fe6
-      internalID: -409074417
+      spriteID: aacf6b24425e3814ebc0ca402ed98423
+      internalID: 1341531986
       vertices: []
       indices: 
       edges: []
@@ -382,18 +382,20 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
     nameFileIdTable:
-      PangSprite_Pang_0: -1291776803
-      PangSprite_Pang_1: 217906561
-      PangSprite_Pang_10: -409074417
-      PangSprite_Pang_2: -669984527
-      PangSprite_Pang_3: -1608319400
-      PangSprite_Pang_4: -757447317
-      PangSprite_Pang_5: -170859998
-      PangSprite_Pang_6: 1780999711
-      PangSprite_Pang_7: 1914086056
-      PangSprite_Pang_8: -2107456429
-      PangSprite_Pang_9: 1395319730
+      PastelSprite_Match_0: 943764193
+      PastelSprite_Match_1: 264592960
+      PastelSprite_Match_10: 1341531986
+      PastelSprite_Match_2: 1278227859
+      PastelSprite_Match_3: 1162712265
+      PastelSprite_Match_4: 2098962821
+      PastelSprite_Match_5: 1373215431
+      PastelSprite_Match_6: -1125337857
+      PastelSprite_Match_7: 760324497
+      PastelSprite_Match_8: -258952697
+      PastelSprite_Match_9: -1283054339
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -531,6 +531,7 @@ GameObject:
   - component: {fileID: 1100368410}
   - component: {fileID: 1100368411}
   - component: {fileID: 1100368412}
+  - component: {fileID: 1100368413}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -582,6 +583,73 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mask: {fileID: 1937282773}
+--- !u!114 &1100368413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1100368407}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f553c3a29cc87cf4a917f9f2cca5efc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemSprite:
+  - {fileID: -1196063941, guid: 00fa5069ab4724949bde573d92c45706, type: 3}
+  - {fileID: -606260465, guid: 00fa5069ab4724949bde573d92c45706, type: 3}
+  - {fileID: 122721217, guid: 00fa5069ab4724949bde573d92c45706, type: 3}
+  - {fileID: 935898923, guid: 00fa5069ab4724949bde573d92c45706, type: 3}
+  - {fileID: -952332811, guid: 00fa5069ab4724949bde573d92c45706, type: 3}
+  - {fileID: -952332811, guid: 00fa5069ab4724949bde573d92c45706, type: 3}
+  - {fileID: -952332811, guid: 00fa5069ab4724949bde573d92c45706, type: 3}
+  pastelSprite_Idle:
+  - {fileID: -2021974586, guid: 0aa3513d5bb07d24fb1948d124542ba1, type: 3}
+  - {fileID: -2067644529, guid: 0aa3513d5bb07d24fb1948d124542ba1, type: 3}
+  - {fileID: 1568863588, guid: 0aa3513d5bb07d24fb1948d124542ba1, type: 3}
+  - {fileID: -656721188, guid: 0aa3513d5bb07d24fb1948d124542ba1, type: 3}
+  - {fileID: -1676280479, guid: 0aa3513d5bb07d24fb1948d124542ba1, type: 3}
+  - {fileID: 1220656391, guid: 0aa3513d5bb07d24fb1948d124542ba1, type: 3}
+  - {fileID: -1431338105, guid: 0aa3513d5bb07d24fb1948d124542ba1, type: 3}
+  - {fileID: 2106335934, guid: 0aa3513d5bb07d24fb1948d124542ba1, type: 3}
+  - {fileID: 1157529289, guid: 0aa3513d5bb07d24fb1948d124542ba1, type: 3}
+  - {fileID: 172520407, guid: 0aa3513d5bb07d24fb1948d124542ba1, type: 3}
+  - {fileID: 1159686834, guid: 0aa3513d5bb07d24fb1948d124542ba1, type: 3}
+  pastelSprite_Match:
+  - {fileID: 943764193, guid: ceb814b7eeaf2df4491f0321ad9bc89c, type: 3}
+  - {fileID: 264592960, guid: ceb814b7eeaf2df4491f0321ad9bc89c, type: 3}
+  - {fileID: 1278227859, guid: ceb814b7eeaf2df4491f0321ad9bc89c, type: 3}
+  - {fileID: 1162712265, guid: ceb814b7eeaf2df4491f0321ad9bc89c, type: 3}
+  - {fileID: 2098962821, guid: ceb814b7eeaf2df4491f0321ad9bc89c, type: 3}
+  - {fileID: 1373215431, guid: ceb814b7eeaf2df4491f0321ad9bc89c, type: 3}
+  - {fileID: -1125337857, guid: ceb814b7eeaf2df4491f0321ad9bc89c, type: 3}
+  - {fileID: 760324497, guid: ceb814b7eeaf2df4491f0321ad9bc89c, type: 3}
+  - {fileID: -258952697, guid: ceb814b7eeaf2df4491f0321ad9bc89c, type: 3}
+  - {fileID: -1283054339, guid: ceb814b7eeaf2df4491f0321ad9bc89c, type: 3}
+  - {fileID: 1341531986, guid: ceb814b7eeaf2df4491f0321ad9bc89c, type: 3}
+  pastelGlow_Color:
+  - serializedVersion: 2
+    rgba: 4290282113
+  - serializedVersion: 2
+    rgba: 4283052082
+  - serializedVersion: 2
+    rgba: 4292773019
+  - serializedVersion: 2
+    rgba: 4282396539
+  - serializedVersion: 2
+    rgba: 4280295467
+  - serializedVersion: 2
+    rgba: 4279308620
+  - serializedVersion: 2
+    rgba: 4292846663
+  - serializedVersion: 2
+    rgba: 4288702075
+  - serializedVersion: 2
+    rgba: 4283510826
+  - serializedVersion: 2
+    rgba: 4287066606
+  - serializedVersion: 2
+    rgba: 4287156552
 --- !u!1 &1115228168
 GameObject:
   m_ObjectHideFlags: 0
