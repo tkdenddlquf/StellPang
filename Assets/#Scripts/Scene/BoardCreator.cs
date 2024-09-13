@@ -12,11 +12,11 @@ public class BoardCreator : MonoBehaviour
     {
         get
         {
-            if (_y < 0) return null;
             if (_x < 0) return null;
+            if (_y < 0) return null;
 
-            if (_y > boardSize[1] - 1) return null;
             if (_x > boardSize[0] - 1) return null;
+            if (_y > boardSize[1] - 1) return null;
 
             return Board[_y, _x];
         }
@@ -34,7 +34,7 @@ public class BoardCreator : MonoBehaviour
     {
         Board = new Block[boardSize[1], boardSize[0]];
 
-        Vector2 _startPos = new(-(boardSize[0] - 1f) / 2, (boardSize[1] - 1f) / 2);
+        Vector2 _startPos = new(-(boardSize[0] - 1f) / 2, -(boardSize[1] - 1f) / 2);
 
         for (int x = 0; x < boardSize[1]; x++)
         {
@@ -55,7 +55,7 @@ public class BoardCreator : MonoBehaviour
             }
 
             _startPos.x = -(boardSize[0] - 1f) / 2;
-            _startPos.y--;
+            _startPos.y++;
         }
 
         CreateMask();

@@ -5,8 +5,21 @@ public abstract class PangTypeBase
 {
     protected Pang pang;
 
-    protected bool move;
+    private bool isMove;
+
     protected Block nextBlock;
+
+    protected bool IsMove
+    {
+        get => isMove;
+        set
+        {
+            isMove = value;
+
+            if (value) GameManager._instance.LevelManager.MoveCount++;
+            else GameManager._instance.LevelManager.MoveCount--;
+        }
+    }
 
     protected PangTypeBase(Pang _pang)
     {

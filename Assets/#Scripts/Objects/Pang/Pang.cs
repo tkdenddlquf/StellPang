@@ -7,9 +7,7 @@ public class Pang : MonoBehaviour
 
     private Block targetBlock;
 
-    public PangState PangState { get; private set; }
     public PangType PangType { get; private set; }
-
     public PangTypeBase StateBase { get; private set; }
 
     public Block TargetBlock
@@ -23,6 +21,8 @@ public class Pang : MonoBehaviour
             {
                 targetBlock.TargetPang = null;
                 targetBlock.BlockState = BlockState.Empty;
+
+                GameManager._instance.LevelManager.SpawnPang(targetBlock);
             }
 
             targetBlock = value;
@@ -64,12 +64,6 @@ public class Pang : MonoBehaviour
 
         PangType = PangType.Distraction;
     }
-}
-
-public enum PangState
-{
-    Move,
-    Stop
 }
 
 public enum PangType

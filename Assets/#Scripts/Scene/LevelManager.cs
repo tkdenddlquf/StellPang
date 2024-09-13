@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour
@@ -5,50 +6,78 @@ public class LevelManager : MonoBehaviour
     private BoardCreator BoardCreator => GameManager._instance.BoardCreator;
     private ObjectManager ObjectManager => GameManager._instance.ObjectManager;
 
-    private BoardDir boardDir;
+    private Directions spawnDir;
+    private Vector3 spawnVector;
 
+    private int moveCount;
     private Pang spawnPang;
 
-    public void SpawnPang()
+    private CheckMatchSystem checkMatchSystem;
+
+    private readonly List<Block> spawnBlocks = new();
+
+    public int MoveCount
     {
-        switch (boardDir)
+        get => moveCount;
+        set
         {
-            case BoardDir.Up:
-                for (int i = 0; i < BoardCreator.boardSize[0]; i++)
-                {
-                    SpawnPang(BoardCreator[i, 0], Vector3.up);
-                }
+            moveCount = value;
+
+            if (value == 0) Debug.Log(checkMatchSystem.CheckLine(Directions.Right, BoardCreator[0, 0], 3));
+        }
+    }
+
+    private void Start()
+    {
+        checkMatchSystem = new(this);
+    }
+
+    public void SetDirection(Directions _dir)
+    {
+        spawnBlocks.Clear();
+        spawnDir = _dir;
+
+        switch (spawnDir)
+        {
+            case Directions.Up:
+                spawnVector = Vector3.up;
+
+                for (int i = 0; i < BoardCreator.boardSize[0]; i++) spawnBlocks.Add(BoardCreator[i, BoardCreator.boardSize[1] - 1]);
                 break;
 
-            case BoardDir.Right:
-                for (int i = 0; i < BoardCreator.boardSize[1]; i++)
-                {
-                    SpawnPang(BoardCreator[0, i], Vector3.right);
-                }
+            case Directions.Right:
+                spawnVector = Vector3.right;
+
+                for (int i = 0; i < BoardCreator.boardSize[1]; i++) spawnBlocks.Add(BoardCreator[BoardCreator.boardSize[0] - 1, i]);
                 break;
 
-            case BoardDir.Down:
-                for (int i = BoardCreator.boardSize[0] - 1; i >= 0; i--)
-                {
-                    SpawnPang(BoardCreator[i, 0], Vector3.down);
-                }
+            case Directions.Down:
+                spawnVector = Vector3.down;
+
+                for (int i = BoardCreator.boardSize[0] - 1; i >= 0; i--) spawnBlocks.Add(BoardCreator[i, 0]);
                 break;
 
-            case BoardDir.Left:
-                for (int i = BoardCreator.boardSize[1] - 1; i >= 0; i--)
-                {
-                    SpawnPang(BoardCreator[0, i], Vector3.left);
-                }
+            case Directions.Left:
+                spawnVector = Vector3.left;
+
+                for (int i = BoardCreator.boardSize[1] - 1; i >= 0; i--) spawnBlocks.Add(BoardCreator[0, i]);
                 break;
         }
     }
 
-    private void SpawnPang(Block _block, Vector3 _pos)
+    public void SpawnAllPangs()
     {
+        for (int i = 0; i < spawnBlocks.Count; i++) SpawnPang(spawnBlocks[i]);
+    }
+
+    public void SpawnPang(Block _block)
+    {
+        if (!IsFirst(_block.pos)) return;
+
         if (_block.BlockState == BlockState.Empty)
         {
             spawnPang = ObjectManager.pangs.Dequeue();
-            spawnPang.transform.position = _block.transform.position + _pos;
+            spawnPang.transform.position = _block.transform.position + spawnVector;
             spawnPang.TargetBlock = _block;
 
             spawnPang.SetType(PastelType.GangGi);
@@ -56,20 +85,32 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    public Block NextBlock(int[] _pos)
+    public Block NextBlock(Directions _dir, int[] _pos)
     {
-        return boardDir switch
+        return _dir switch
         {
-            BoardDir.Up => BoardCreator[_pos[0], _pos[1] + 1],
-            BoardDir.Right => BoardCreator[_pos[0] - 1, _pos[1]],
-            BoardDir.Down => BoardCreator[_pos[0], _pos[1] - 1],
-            BoardDir.Left => BoardCreator[_pos[0] + 1, _pos[1]],
-            _ => null,
+            Directions.Down => BoardCreator[_pos[0] - (int)spawnVector.x, _pos[1] - (int)spawnVector.y],
+            Directions.Left => BoardCreator[_pos[0] - (int)spawnVector.y, _pos[1] + (int)spawnVector.x],
+            Directions.Up => BoardCreator[_pos[0] + (int)spawnVector.x, _pos[1] + (int)spawnVector.y],
+            Directions.Right => BoardCreator[_pos[0] + (int)spawnVector.y, _pos[1] - (int)spawnVector.x],
+            _ => null
+        };
+    }
+
+    public bool IsFirst(int[] _pos)
+    {
+        return spawnDir switch
+        {
+            Directions.Up => _pos[1] == BoardCreator.boardSize[1] - 1,
+            Directions.Right => _pos[0] == BoardCreator.boardSize[0] - 1,
+            Directions.Down => _pos[1] == 0,
+            Directions.Left => _pos[0] == 0,
+            _ => false,
         };
     }
 }
 
-public enum BoardDir
+public enum Directions
 {
     Up,
     Right,

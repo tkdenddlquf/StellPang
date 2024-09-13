@@ -15,15 +15,15 @@ public class PangType_Item : PangTypeBase
 
     private IEnumerator MoveUpdate()
     {
-        if (move) yield break;
+        if (IsMove) yield break;
 
-        move = true;
+        IsMove = true;
 
         while (true)
         {
             if (pang.transform.position == pang.TargetBlock.transform.position)
             {
-                nextBlock = GameManager._instance.LevelManager.NextBlock(pang.TargetBlock.pos);
+                nextBlock = GameManager._instance.LevelManager.NextBlock(Directions.Down, pang.TargetBlock.pos);
 
                 if (nextBlock != null)
                 {
@@ -32,16 +32,13 @@ public class PangType_Item : PangTypeBase
                 }
                 else break;
             }
-            else
-            {
-                pang.transform.position = Vector2.MoveTowards(pang.transform.position, pang.TargetBlock.transform.position, Time.deltaTime * 4f);
-            }
+            else pang.transform.position = Vector2.MoveTowards(pang.transform.position, pang.TargetBlock.transform.position, Time.deltaTime * 6f);
 
             yield return null;
         }
 
         pang.TargetBlock.BlockState = BlockState.Filled;
 
-        move = false;
+        IsMove = false;
     }
 }

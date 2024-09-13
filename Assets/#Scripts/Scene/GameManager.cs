@@ -27,6 +27,8 @@ public class GameManager : MonoBehaviour
         ObjectManager = GetComponent<ObjectManager>();
 
         BoardCreator.CreateBoard();
-        LevelManager.SpawnPang();
+
+        LevelManager.SetDirection(Directions.Up);
+        LevelManager.SpawnAllPangs();
     }
 }
