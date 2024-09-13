@@ -2,28 +2,17 @@ using UnityEngine;
 
 public class Block : MonoBehaviour
 {
-    private BlockStateBase stateBase;
-
     public SpriteRenderer background;
-    public SpriteRenderer blockImage;
 
-    public void SetType(BlockType _type)
-    {
-        switch (_type)
-        {
-            case BlockType.None:
-                stateBase = new BlockState_None(this, blockImage.sprite);
-                break;
+    public Pang TargetPang { get; set; }
+    public BlockState BlockState { get; set; }
 
-            case BlockType.Stone:
-                stateBase = new BlockState_Stone(this, blockImage.sprite);
-                break;
-        }
-    }
+    public int[] pos = new int[2];
 }
 
-public enum BlockType
+public enum BlockState
 {
-    None,
-    Stone
+    Empty,
+    Reserved,
+    Filled
 }

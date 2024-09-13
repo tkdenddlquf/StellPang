@@ -7,32 +7,43 @@ public class BoardCreator : MonoBehaviour
     private Color32 blockColor = new(10, 3, 36, 150);
 
     public Block[,] Board { get; private set; }
-    public ObjectManager ObjectManager { get; private set; }
+
+    public Block this[int _x, int _y]
+    {
+        get
+        {
+            if (_y < 0) return null;
+            if (_x < 0) return null;
+
+            if (_y > boardSize[1] - 1) return null;
+            if (_x > boardSize[0] - 1) return null;
+
+            return Board[_y, _x];
+        }
+    }
 
     public readonly int[] boardSize = new int[2];
 
     private void Start()
     {
-        ObjectManager = GetComponent<ObjectManager>();
-
         boardSize[0] = 5;
         boardSize[1] = 4;
-
-        CreateBoard();
     }
 
     public void CreateBoard()
     {
         Board = new Block[boardSize[1], boardSize[0]];
 
-        Vector2 _startPos = new(-(float)(boardSize[0] - 1) / 2, (float)(boardSize[1] - 1) / 2);
+        Vector2 _startPos = new(-(boardSize[0] - 1f) / 2, (boardSize[1] - 1f) / 2);
 
         for (int x = 0; x < boardSize[1]; x++)
         {
             for (int y = 0; y < boardSize[0]; y++)
             {
-                Board[x, y] = ObjectManager.blocks.Dequeue();
-                Board[x, y].SetType(BlockType.None);
+                Board[x, y] = GameManager._instance.ObjectManager.blocks.Dequeue();
+
+                Board[x, y].pos[0] = y;
+                Board[x, y].pos[1] = x;
 
                 if ((x + y) % 2 == 0) blockColor.a = 150;
                 else blockColor.a = 200;
@@ -43,7 +54,7 @@ public class BoardCreator : MonoBehaviour
                 _startPos.x++;
             }
 
-            _startPos.x = -(float)(boardSize[0] - 1) / 2;
+            _startPos.x = -(boardSize[0] - 1f) / 2;
             _startPos.y--;
         }
 

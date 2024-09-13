@@ -531,6 +531,7 @@ GameObject:
   - component: {fileID: 1100368410}
   - component: {fileID: 1100368411}
   - component: {fileID: 1100368412}
+  - component: {fileID: 1100368414}
   - component: {fileID: 1100368413}
   m_Layer: 0
   m_Name: GameManager
@@ -603,6 +604,10 @@ MonoBehaviour:
   - {fileID: -952332811, guid: 00fa5069ab4724949bde573d92c45706, type: 3}
   - {fileID: -952332811, guid: 00fa5069ab4724949bde573d92c45706, type: 3}
   - {fileID: -952332811, guid: 00fa5069ab4724949bde573d92c45706, type: 3}
+  distractionSprite:
+  - {fileID: -1015320966, guid: 67ca5a6fb7326d645801f7e00ecbe23b, type: 3}
+  - {fileID: 1777636650, guid: 67ca5a6fb7326d645801f7e00ecbe23b, type: 3}
+  - {fileID: 21300000, guid: 2a2df64db641ada47851751d90f1465a, type: 3}
   pastelSprite_Idle:
   - {fileID: -2021974586, guid: 0aa3513d5bb07d24fb1948d124542ba1, type: 3}
   - {fileID: -2067644529, guid: 0aa3513d5bb07d24fb1948d124542ba1, type: 3}
@@ -650,6 +655,18 @@ MonoBehaviour:
     rgba: 4287066606
   - serializedVersion: 2
     rgba: 4287156552
+--- !u!114 &1100368414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1100368407}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 573729258fb20df488ac061a726b618c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1115228168
 GameObject:
   m_ObjectHideFlags: 0
