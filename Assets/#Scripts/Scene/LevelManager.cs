@@ -14,6 +14,7 @@ public class LevelManager : MonoBehaviour
 
     private CheckMatchSystem checkMatchSystem;
 
+    public readonly List<Pang> itemPangs = new();
     private readonly List<Block> spawnBlocks = new();
 
     public int MoveCount
@@ -23,7 +24,7 @@ public class LevelManager : MonoBehaviour
         {
             moveCount = value;
 
-            if (value == 0) Debug.Log(checkMatchSystem.CheckLine(Directions.Right, BoardCreator[0, 0], 3));
+            if (value == 0) checkMatchSystem.CheckMatch();
         }
     }
 
@@ -65,6 +66,7 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    // 팡 관련
     public void SpawnAllPangs()
     {
         for (int i = 0; i < spawnBlocks.Count; i++) SpawnPang(spawnBlocks[i]);
@@ -80,19 +82,20 @@ public class LevelManager : MonoBehaviour
             spawnPang.transform.position = _block.transform.position + spawnVector;
             spawnPang.TargetBlock = _block;
 
-            spawnPang.SetType(PastelType.GangGi);
+            spawnPang.SetType((PastelType)Random.Range(0, 4));
             spawnPang.StateBase.Move();
         }
     }
 
-    public Block NextBlock(Directions _dir, int[] _pos)
+    // 블록 관련
+    public Block NextBlock(Directions _dir, int[] _pos, int _index = 1)
     {
         return _dir switch
         {
-            Directions.Down => BoardCreator[_pos[0] - (int)spawnVector.x, _pos[1] - (int)spawnVector.y],
-            Directions.Left => BoardCreator[_pos[0] - (int)spawnVector.y, _pos[1] + (int)spawnVector.x],
-            Directions.Up => BoardCreator[_pos[0] + (int)spawnVector.x, _pos[1] + (int)spawnVector.y],
-            Directions.Right => BoardCreator[_pos[0] + (int)spawnVector.y, _pos[1] - (int)spawnVector.x],
+            Directions.Down => BoardCreator[_pos[0] - (int)spawnVector.x * _index, _pos[1] - (int)spawnVector.y * _index],
+            Directions.Left => BoardCreator[_pos[0] - (int)spawnVector.y * _index, _pos[1] + (int)spawnVector.x * _index],
+            Directions.Up => BoardCreator[_pos[0] + (int)spawnVector.x * _index, _pos[1] + (int)spawnVector.y * _index],
+            Directions.Right => BoardCreator[_pos[0] + (int)spawnVector.y * _index, _pos[1] - (int)spawnVector.x * _index],
             _ => null
         };
     }
@@ -107,6 +110,11 @@ public class LevelManager : MonoBehaviour
             Directions.Left => _pos[0] == 0,
             _ => false,
         };
+    }
+
+    public void AddCheckBlock(Block _block)
+    {
+        checkMatchSystem.CheckBlcoks.Add(_block);
     }
 }
 

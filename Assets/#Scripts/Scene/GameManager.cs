@@ -26,6 +26,9 @@ public class GameManager : MonoBehaviour
         LevelManager = GetComponent<LevelManager>();
         ObjectManager = GetComponent<ObjectManager>();
 
+        BoardCreator.boardSize[0] = 10;
+        BoardCreator.boardSize[1] = 10;
+
         BoardCreator.CreateBoard();
 
         LevelManager.SetDirection(Directions.Up);

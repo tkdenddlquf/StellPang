@@ -24,12 +24,6 @@ public class BoardCreator : MonoBehaviour
 
     public readonly int[] boardSize = new int[2];
 
-    private void Start()
-    {
-        boardSize[0] = 5;
-        boardSize[1] = 4;
-    }
-
     public void CreateBoard()
     {
         Board = new Block[boardSize[1], boardSize[0]];

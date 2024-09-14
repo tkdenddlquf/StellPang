@@ -2,11 +2,14 @@ using UnityEngine;
 
 public class Pang : MonoBehaviour
 {
+    public GameObject selectImage;
+
     public SpriteRenderer pangImage;
     public SpriteRenderer pangGlow;
 
     private Block targetBlock;
 
+    public int PangTypeNum { get; private set; }
     public PangType PangType { get; private set; }
     public PangTypeBase StateBase { get; private set; }
 
@@ -43,6 +46,7 @@ public class Pang : MonoBehaviour
         pangGlow.color = GameManager._instance.pastelGlow_Color[(int)_type];
 
         PangType = PangType.Pastel;
+        PangTypeNum = (int)_type;
     }
 
     public void SetType(ItemType _type)
@@ -53,6 +57,9 @@ public class Pang : MonoBehaviour
         pangGlow.color = Color.black;
 
         PangType = PangType.Item;
+        PangTypeNum = (int)_type;
+
+        GameManager._instance.LevelManager.itemPangs.Add(this);
     }
 
     public void SetType(DistractionType _type)
@@ -63,6 +70,7 @@ public class Pang : MonoBehaviour
         pangGlow.color = Color.black;
 
         PangType = PangType.Distraction;
+        PangTypeNum = (int)_type;
     }
 }
 

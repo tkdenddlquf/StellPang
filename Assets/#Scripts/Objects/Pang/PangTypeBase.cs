@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 public abstract class PangTypeBase
@@ -17,7 +16,11 @@ public abstract class PangTypeBase
             isMove = value;
 
             if (value) GameManager._instance.LevelManager.MoveCount++;
-            else GameManager._instance.LevelManager.MoveCount--;
+            else
+            {
+                GameManager._instance.LevelManager.MoveCount--;
+                GameManager._instance.LevelManager.AddCheckBlock(pang.TargetBlock);
+            }
         }
     }
 

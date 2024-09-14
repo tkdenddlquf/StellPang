@@ -103,6 +103,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83e80e261b7497b4f97a510101cba2d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectImage: {fileID: 6036201688507048847}
   pangImage: {fileID: 7309842473561842854}
   pangGlow: {fileID: 3499510205544129937}
 --- !u!1 &4733067366871311786
