@@ -31,6 +31,7 @@ public class ObjectManager : MonoBehaviour
     private void EnqueuePang(Pang _pang)
     {
         _pang.transform.position = new(99, 99);
+        _pang.TargetBlock = null;
     }
 
     private void DequeueBlock(Block _block)

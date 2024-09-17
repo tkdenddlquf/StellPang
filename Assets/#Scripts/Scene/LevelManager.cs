@@ -14,7 +14,7 @@ public class LevelManager : MonoBehaviour
 
     private CheckMatchSystem checkMatchSystem;
 
-    public readonly List<Pang> itemPangs = new();
+    private readonly List<Pang> itemPangs = new();
     private readonly List<Block> spawnBlocks = new();
 
     public int MoveCount
@@ -85,6 +85,16 @@ public class LevelManager : MonoBehaviour
             spawnPang.SetType((PastelType)Random.Range(0, 4));
             spawnPang.StateBase.Move();
         }
+    }
+
+    public void AddItemPang(Pang _pang)
+    {
+        itemPangs.Add(_pang);
+    }
+
+    public void RemovePang(Pang _pang)
+    {
+        ObjectManager.pangs.Enqueue(_pang);
     }
 
     // 블록 관련

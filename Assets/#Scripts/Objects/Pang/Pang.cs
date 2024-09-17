@@ -59,7 +59,7 @@ public class Pang : MonoBehaviour
         PangType = PangType.Item;
         PangTypeNum = (int)_type;
 
-        GameManager._instance.LevelManager.itemPangs.Add(this);
+        GameManager._instance.LevelManager.AddItemPang(this);
     }
 
     public void SetType(DistractionType _type)

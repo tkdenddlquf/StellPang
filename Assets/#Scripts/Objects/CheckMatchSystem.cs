@@ -23,7 +23,41 @@ public class CheckMatchSystem
 
         while (CheckBlcoks.Count > 0)
         {
-            if (CheckLine(Directions.Right, CheckBlcoks[0], 4))
+            if (CheckT(Directions.Up, CheckBlcoks[0]))
+            {
+                RecordBlcoks[0].TargetPang.SetType(ItemType.BombSmallCross);
+            }
+            else if (CheckT(Directions.Right, CheckBlcoks[0]))
+            {
+                RecordBlcoks[0].TargetPang.SetType(ItemType.BombSmallCross);
+            }
+            else if (CheckT(Directions.Down, CheckBlcoks[0]))
+            {
+                RecordBlcoks[0].TargetPang.SetType(ItemType.BombSmallCross);
+            }
+            else if (CheckT(Directions.Left, CheckBlcoks[0]))
+            {
+                RecordBlcoks[0].TargetPang.SetType(ItemType.BombSmallCross);
+            }
+
+            else if (CheckL(Directions.Up, CheckBlcoks[0]))
+            {
+                RecordBlcoks[0].TargetPang.SetType(ItemType.BombLargeCross);
+            }
+            else if (CheckL(Directions.Right, CheckBlcoks[0]))
+            {
+                RecordBlcoks[0].TargetPang.SetType(ItemType.BombLargeCross);
+            }
+            else if (CheckL(Directions.Down, CheckBlcoks[0]))
+            {
+                RecordBlcoks[0].TargetPang.SetType(ItemType.BombLargeCross);
+            }
+            else if (CheckL(Directions.Left, CheckBlcoks[0]))
+            {
+                RecordBlcoks[0].TargetPang.SetType(ItemType.BombLargeCross);
+            }
+
+            else if (CheckLine(Directions.Right, CheckBlcoks[0], 4))
             {
                 RecordBlcoks[0].TargetPang.SetType(ItemType.BombHori);
             }
@@ -32,8 +66,79 @@ public class CheckMatchSystem
                 RecordBlcoks[0].TargetPang.SetType(ItemType.BombVert);
             }
 
-            CheckBlcoks.Remove(RecordBlcoks[0]);
+            if (RemoveBlcoks.Count == 0) CheckBlcoks.RemoveAt(0);
+            else
+            {
+                RemoveBlcoks.Remove(RemoveBlcoks[0]);
+
+                while (RemoveBlcoks.Count > 0)
+                {
+                    levelManager.RemovePang(RemoveBlcoks[0].TargetPang);
+                    RemoveBlcoks.RemoveAt(0);
+                }
+            }
         }
+    }
+
+    private bool CheckT(Directions _dir, Block _block)
+    {
+        RecordBlcoks.Clear();
+        RecordBlcoks.Add(_block);
+
+        for (int i = 1; i < 3; i++)
+        {
+            checkBlock = levelManager.NextBlock(_dir, _block.pos, i);
+
+            if (!CheckPang(_block)) break;
+        }
+
+        if (RecordBlcoks.Count == 3)
+        {
+            for (int i = 1; i < 3; i++)
+            {
+                checkBlock = levelManager.NextBlock(_dir - 1, RecordBlcoks[1].pos, i);
+
+                if (!CheckPang(_block)) break;
+            }
+
+            if (RecordBlcoks.Count == 5)
+            {
+                AddRemoveList();
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private bool CheckL(Directions _dir, Block _block)
+    {
+        RecordBlcoks.Clear();
+        RecordBlcoks.Add(_block);
+
+        for (int i = 1; i < 3; i++)
+        {
+            checkBlock = levelManager.NextBlock(_dir, _block.pos, i);
+
+            if (!CheckPang(_block)) break;
+        }
+
+        for (int i = 1; i < 3; i++)
+        {
+            checkBlock = levelManager.NextBlock(_dir - 1, _block.pos, i);
+
+            if (!CheckPang(_block)) break;
+        }
+
+        if (RecordBlcoks.Count == 5)
+        {
+            AddRemoveList();
+
+            return true;
+        }
+
+        return false;
     }
 
     private bool CheckLine(Directions _dir, Block _block, int _max)
@@ -41,26 +146,37 @@ public class CheckMatchSystem
         RecordBlcoks.Clear();
         RecordBlcoks.Add(_block);
 
-        for (int i = 0; i < _max; i++)
+        for (int i = 1; i < _max; i++)
         {
-            checkBlock = levelManager.NextBlock(_dir, _block.pos, i + 1);
+            checkBlock = levelManager.NextBlock(_dir, _block.pos, i);
 
-            if (checkBlock == null) break;
-
-            if (checkBlock.TargetPang.PangTypeNum == _block.TargetPang.PangTypeNum) RecordBlcoks.Add(checkBlock);
-            else break;
+            if (!CheckPang(_block)) break;
         }
 
         if (RecordBlcoks.Count == _max)
         {
-            Debug.Log(RecordBlcoks.Count);
-
             AddRemoveList();
 
             return true;
         }
 
         return false;
+    }
+
+    private bool CheckPang(Block _block)
+    {
+        if (checkBlock == null) return false;
+        if (checkBlock.TargetPang == null) return false;
+
+        if (_block == null) return false;
+        if (_block.TargetPang == null) return false;
+
+        if (checkBlock.TargetPang.PangType != PangType.Pastel) return false;
+
+        if (_block.CheckPangType(checkBlock)) RecordBlcoks.Add(checkBlock);
+        else return false;
+
+        return true;
     }
 
     private void AddRemoveList()
