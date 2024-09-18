@@ -11,11 +11,13 @@ public class LevelManager : MonoBehaviour
 
     private int moveCount;
     private Pang spawnPang;
+    private Block checkBlock;
 
     private CheckMatchSystem checkMatchSystem;
 
     private readonly List<Pang> itemPangs = new();
     private readonly List<Block> spawnBlocks = new();
+    private readonly List<PastelType> pastelTypes = new();
 
     public int MoveCount
     {
@@ -67,6 +69,36 @@ public class LevelManager : MonoBehaviour
     }
 
     // 팡 관련
+    public void SetPastelType(int _count)
+    {
+        PastelType _randType;
+
+        while (pastelTypes.Count < _count)
+        {
+            _randType = (PastelType)Random.Range(0, System.Enum.GetNames(typeof(PastelType)).Length);
+
+            if (!pastelTypes.Contains(_randType)) pastelTypes.Add(_randType);
+        }
+    }
+
+    public void RefreshAllPangs()
+    {
+        for (int i = 0; i < BoardCreator.boardSize[0]; i++)
+        {
+            for (int j = 0; j < BoardCreator.boardSize[1]; j++)
+            {
+                if (BoardCreator[i, j].TargetPang == null) continue;
+
+                checkBlock = this[Directions.Down, BoardCreator[i, j].pos];
+
+                if (checkBlock == null) continue;
+                if (checkBlock.TargetPang != null) continue;
+
+                BoardCreator[i, j].TargetPang.StateBase.Move();
+            }
+        }
+    }
+
     public void SpawnAllPangs()
     {
         for (int i = 0; i < spawnBlocks.Count; i++) SpawnPang(spawnBlocks[i]);
@@ -74,7 +106,7 @@ public class LevelManager : MonoBehaviour
 
     public void SpawnPang(Block _block)
     {
-        if (!IsFirst(_block.pos)) return;
+        if (!this[_block.pos]) return;
 
         if (_block.BlockState == BlockState.Empty)
         {
@@ -82,7 +114,7 @@ public class LevelManager : MonoBehaviour
             spawnPang.transform.position = _block.transform.position + spawnVector;
             spawnPang.TargetBlock = _block;
 
-            spawnPang.SetType((PastelType)Random.Range(0, 4));
+            spawnPang.SetType(pastelTypes[Random.Range(0, pastelTypes.Count)]);
             spawnPang.StateBase.Move();
         }
     }
@@ -98,28 +130,34 @@ public class LevelManager : MonoBehaviour
     }
 
     // 블록 관련
-    public Block NextBlock(Directions _dir, int[] _pos, int _index = 1)
+    public Block this[Directions _dir, int[] _pos, int _index = 1]
     {
-        return _dir switch
+        get
         {
-            Directions.Down => BoardCreator[_pos[0] - (int)spawnVector.x * _index, _pos[1] - (int)spawnVector.y * _index],
-            Directions.Left => BoardCreator[_pos[0] - (int)spawnVector.y * _index, _pos[1] + (int)spawnVector.x * _index],
-            Directions.Up => BoardCreator[_pos[0] + (int)spawnVector.x * _index, _pos[1] + (int)spawnVector.y * _index],
-            Directions.Right => BoardCreator[_pos[0] + (int)spawnVector.y * _index, _pos[1] - (int)spawnVector.x * _index],
-            _ => null
-        };
+            return _dir switch
+            {
+                Directions.Down => BoardCreator[_pos[0] - (int)spawnVector.x * _index, _pos[1] - (int)spawnVector.y * _index],
+                Directions.Left => BoardCreator[_pos[0] - (int)spawnVector.y * _index, _pos[1] + (int)spawnVector.x * _index],
+                Directions.Up => BoardCreator[_pos[0] + (int)spawnVector.x * _index, _pos[1] + (int)spawnVector.y * _index],
+                Directions.Right => BoardCreator[_pos[0] + (int)spawnVector.y * _index, _pos[1] - (int)spawnVector.x * _index],
+                _ => null
+            };
+        }
     }
 
-    public bool IsFirst(int[] _pos)
+    public bool this[int[] _pos]
     {
-        return spawnDir switch
+        get
         {
-            Directions.Up => _pos[1] == BoardCreator.boardSize[1] - 1,
-            Directions.Right => _pos[0] == BoardCreator.boardSize[0] - 1,
-            Directions.Down => _pos[1] == 0,
-            Directions.Left => _pos[0] == 0,
-            _ => false,
-        };
+            return spawnDir switch
+            {
+                Directions.Up => _pos[1] == BoardCreator.boardSize[1] - 1,
+                Directions.Right => _pos[0] == BoardCreator.boardSize[0] - 1,
+                Directions.Down => _pos[1] == 0,
+                Directions.Left => _pos[0] == 0,
+                _ => false,
+            };
+        }
     }
 
     public void AddCheckBlock(Block _block)

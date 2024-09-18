@@ -23,7 +23,7 @@ public class PangType_Pastel : PangTypeBase
         {
             if (pang.transform.position == pang.TargetBlock.transform.position)
             {
-                nextBlock = GameManager._instance.LevelManager.NextBlock(Directions.Down, pang.TargetBlock.pos);
+                nextBlock = GameManager._instance.LevelManager[Directions.Down, pang.TargetBlock.pos];
 
                 if (nextBlock != null)
                 {
