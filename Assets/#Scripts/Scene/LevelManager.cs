@@ -89,7 +89,7 @@ public class LevelManager : MonoBehaviour
             {
                 if (BoardCreator[i, j].TargetPang == null) continue;
 
-                checkBlock = this[Directions.Down, BoardCreator[i, j].pos];
+                checkBlock = this[Directions.Down, BoardCreator[i, j].Pos];
 
                 if (checkBlock == null) continue;
                 if (checkBlock.TargetPang != null) continue;
@@ -106,7 +106,7 @@ public class LevelManager : MonoBehaviour
 
     public void SpawnPang(Block _block)
     {
-        if (!this[_block.pos]) return;
+        if (this[Directions.Up, _block.Pos] != null) return;
 
         if (_block.BlockState == BlockState.Empty)
         {
@@ -143,26 +143,6 @@ public class LevelManager : MonoBehaviour
                 _ => null
             };
         }
-    }
-
-    public bool this[int[] _pos]
-    {
-        get
-        {
-            return spawnDir switch
-            {
-                Directions.Up => _pos[1] == BoardCreator.boardSize[1] - 1,
-                Directions.Right => _pos[0] == BoardCreator.boardSize[0] - 1,
-                Directions.Down => _pos[1] == 0,
-                Directions.Left => _pos[0] == 0,
-                _ => false,
-            };
-        }
-    }
-
-    public void AddCheckBlock(Block _block)
-    {
-        checkMatchSystem.CheckBlcoks.Add(_block);
     }
 }
 

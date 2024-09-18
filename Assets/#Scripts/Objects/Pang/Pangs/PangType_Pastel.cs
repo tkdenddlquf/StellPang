@@ -10,20 +10,23 @@ public class PangType_Pastel : PangTypeBase
 
     public override void Move()
     {
-        pang.StartCoroutine(MoveUpdate());
+        if (!IsMove)
+        {
+            IsMove = true;
+
+            pang.StartCoroutine(MoveUpdate());
+        }
     }
 
     private IEnumerator MoveUpdate()
     {
-        if (IsMove) yield break;
-
-        IsMove = true;
-
         while (true)
         {
+            if (pang.TargetBlock == null) yield break;
+
             if (pang.transform.position == pang.TargetBlock.transform.position)
             {
-                nextBlock = GameManager._instance.LevelManager[Directions.Down, pang.TargetBlock.pos];
+                nextBlock = GameManager._instance.LevelManager[Directions.Down, pang.TargetBlock.Pos];
 
                 if (nextBlock != null)
                 {
@@ -32,7 +35,7 @@ public class PangType_Pastel : PangTypeBase
                 }
                 else break;
             }
-            else pang.transform.position = Vector2.MoveTowards(pang.transform.position, pang.TargetBlock.transform.position, Time.deltaTime * 6f);
+            else pang.transform.position = Vector2.MoveTowards(pang.transform.position, pang.TargetBlock.transform.position, Time.deltaTime * moveSpeed);
 
             yield return null;
         }

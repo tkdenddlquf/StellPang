@@ -1,11 +1,12 @@
 using System.Collections.Generic;
-using UnityEngine;
 
 public class CheckMatchSystem
 {
+    private BoardCreator BoardCreator => GameManager._instance.BoardCreator;
+
     private Block checkBlock;
 
-    public List<Block> CheckBlcoks { get; } = new();
+    private List<Block> CheckBlcoks { get; } = new();
 
     private List<Block> RecordBlcoks { get; } = new();
     private List<Block> RemoveBlcoks { get; } = new();
@@ -19,29 +20,38 @@ public class CheckMatchSystem
 
     public void CheckMatch()
     {
+        CheckBlcoks.Clear();
         RemoveBlcoks.Clear();
+
+        for (int i = 0; i < BoardCreator.boardSize[0]; i++)
+        {
+            for (int j = 0; j < BoardCreator.boardSize[1]; j++)
+            {
+                CheckBlcoks.Add(BoardCreator[i, j]);
+            }
+        }
 
         while (CheckBlcoks.Count > 0)
         {
             if (CheckT(Directions.Up, CheckBlcoks[0]))
             {
-                RecordBlcoks[0].TargetPang.SetType(ItemType.BombLargeCross);
-                RemoveBlcoks.Remove(RecordBlcoks[0]);
+                RecordBlcoks[1].TargetPang.SetType(ItemType.BombLargeCross);
+                RemoveBlcoks.Remove(RecordBlcoks[1]);
             }
             else if (CheckT(Directions.Right, CheckBlcoks[0]))
             {
-                RecordBlcoks[0].TargetPang.SetType(ItemType.BombLargeCross);
-                RemoveBlcoks.Remove(RecordBlcoks[0]);
+                RecordBlcoks[1].TargetPang.SetType(ItemType.BombLargeCross);
+                RemoveBlcoks.Remove(RecordBlcoks[1]);
             }
             else if (CheckT(Directions.Down, CheckBlcoks[0]))
             {
-                RecordBlcoks[0].TargetPang.SetType(ItemType.BombLargeCross);
-                RemoveBlcoks.Remove(RecordBlcoks[0]);
+                RecordBlcoks[1].TargetPang.SetType(ItemType.BombLargeCross);
+                RemoveBlcoks.Remove(RecordBlcoks[1]);
             }
             else if (CheckT(Directions.Left, CheckBlcoks[0]))
             {
-                RecordBlcoks[0].TargetPang.SetType(ItemType.BombLargeCross);
-                RemoveBlcoks.Remove(RecordBlcoks[0]);
+                RecordBlcoks[1].TargetPang.SetType(ItemType.BombLargeCross);
+                RemoveBlcoks.Remove(RecordBlcoks[1]);
             }
 
             else if (CheckL(Directions.Up, CheckBlcoks[0]))
@@ -76,6 +86,12 @@ public class CheckMatchSystem
                 RemoveBlcoks.Remove(RecordBlcoks[0]);
             }
 
+            else if (CheckBox(CheckBlcoks[0]))
+            {
+                RecordBlcoks[0].TargetPang.SetType(ItemType.BombSmallCross);
+                RemoveBlcoks.Remove(RecordBlcoks[0]);
+            }
+
             else if (!CheckLine(Directions.Right, CheckBlcoks[0], 3))
             {
                 CheckLine(Directions.Down, CheckBlcoks[0], 3);
@@ -102,18 +118,18 @@ public class CheckMatchSystem
 
         for (int i = 1; i < 3; i++)
         {
-            checkBlock = levelManager[_dir, _block.pos, i];
+            checkBlock = levelManager[_dir, _block.Pos, i];
 
-            if (!CheckPang(_block)) break;
+            if (!CheckSameType(_block)) break;
         }
 
         if (RecordBlcoks.Count == 3)
         {
             for (int i = 1; i < 3; i++)
             {
-                checkBlock = levelManager[this[_dir], RecordBlcoks[1].pos, i];
+                checkBlock = levelManager[this[_dir], RecordBlcoks[1].Pos, i];
 
-                if (!CheckPang(_block)) break;
+                if (!CheckSameType(_block)) break;
             }
 
             if (RecordBlcoks.Count == 5)
@@ -134,19 +150,48 @@ public class CheckMatchSystem
 
         for (int i = 1; i < 3; i++)
         {
-            checkBlock = levelManager[_dir, _block.pos, i];
+            checkBlock = levelManager[_dir, _block.Pos, i];
 
-            if (!CheckPang(_block)) break;
+            if (!CheckSameType(_block)) break;
         }
 
         for (int i = 1; i < 3; i++)
         {
-            checkBlock = levelManager[this[_dir], _block.pos, i];
+            checkBlock = levelManager[this[_dir], _block.Pos, i];
 
-            if (!CheckPang(_block)) break;
+            if (!CheckSameType(_block)) break;
         }
 
         if (RecordBlcoks.Count == 5)
+        {
+            AddRemoveList();
+
+            return true;
+        }
+
+        return false;
+    }
+
+    private bool CheckBox(Block _block)
+    {
+        RecordBlcoks.Clear();
+        RecordBlcoks.Add(_block);
+
+        checkBlock = levelManager[Directions.Up, _block.Pos];
+
+        if (!CheckSameType(_block)) return false;
+
+        checkBlock = levelManager[Directions.Right, _block.Pos];
+
+        if (!CheckSameType(_block)) return false;
+
+        _block = checkBlock;
+
+        checkBlock = levelManager[Directions.Up, _block.Pos];
+
+        if (!CheckSameType(_block)) return false;
+
+        if (RecordBlcoks.Count == 4)
         {
             AddRemoveList();
 
@@ -163,9 +208,9 @@ public class CheckMatchSystem
 
         for (int i = 1; i < _max; i++)
         {
-            checkBlock = levelManager[_dir, _block.pos, i];
+            checkBlock = levelManager[_dir, _block.Pos, i];
 
-            if (!CheckPang(_block)) break;
+            if (!CheckSameType(_block)) break;
         }
 
         if (RecordBlcoks.Count == _max)
@@ -178,7 +223,7 @@ public class CheckMatchSystem
         return false;
     }
 
-    private bool CheckPang(Block _block)
+    private bool CheckSameType(Block _block)
     {
         if (checkBlock == null) return false;
         if (checkBlock.TargetPang == null) return false;

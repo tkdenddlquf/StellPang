@@ -36,8 +36,8 @@ public class BoardCreator : MonoBehaviour
             {
                 Board[x, y] = GameManager._instance.ObjectManager.blocks.Dequeue();
 
-                Board[x, y].pos[0] = y;
-                Board[x, y].pos[1] = x;
+                Board[x, y].Pos[0] = y;
+                Board[x, y].Pos[1] = x;
 
                 if ((x + y) % 2 == 0) blockColor.a = 150;
                 else blockColor.a = 200;
