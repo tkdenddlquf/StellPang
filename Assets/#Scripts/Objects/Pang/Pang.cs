@@ -83,7 +83,9 @@ public enum PangType
 
 public enum DistractionType
 {
-    Stone
+    Stone,
+    Box,
+    Ice
 }
 
 public enum ItemType

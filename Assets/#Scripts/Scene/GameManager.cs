@@ -33,6 +33,9 @@ public class GameManager : MonoBehaviour
 
         LevelManager.SetDirection(Directions.Up);
         LevelManager.SetPastelType(4);
+
+        LevelManager.SpawnPang(BoardCreator[3, 3], DistractionType.Stone);
+
         LevelManager.SpawnAllPangs();
     }
 }

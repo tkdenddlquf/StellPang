@@ -15,6 +15,14 @@ public class Block : MonoBehaviour
 
         return false;
     }
+
+    public void OnMouseDown()
+    {
+        if (TargetPang == null) return;
+        if (GameManager._instance.LevelManager.MoveCount != 0) return;
+
+        TargetPang.selectImage.SetActive(!TargetPang.selectImage.activeSelf);
+    }
 }
 
 public enum BlockState

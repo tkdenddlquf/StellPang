@@ -9,6 +9,6 @@ public class PangType_Distraction : PangTypeBase
 
     public override void Move()
     {
-
+        pang.TargetBlock.BlockState = BlockState.Filled;
     }
 }

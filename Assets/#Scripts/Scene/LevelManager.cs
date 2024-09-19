@@ -119,6 +119,19 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    public void SpawnPang(Block _block, DistractionType _type)
+    {
+        if (_block.BlockState == BlockState.Empty)
+        {
+            spawnPang = ObjectManager.pangs.Dequeue();
+            spawnPang.transform.position = _block.transform.position;
+            spawnPang.TargetBlock = _block;
+
+            spawnPang.SetType(_type);
+            spawnPang.StateBase.Move();
+        }
+    }
+
     public void AddItemPang(Pang _pang)
     {
         itemPangs.Add(_pang);
