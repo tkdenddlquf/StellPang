@@ -43,4 +43,31 @@ public class PangType_Pastel : PangTypeBase
             pang.transform.position = Vector2.MoveTowards(pang.transform.position, pang.TargetBlock.transform.position, Time.deltaTime * moveSpeed);
         }
     }
+
+    public override void OnDestroy()
+    {
+        pang.TargetBlock = null;
+
+        pang.Animator.Play("Destroy");
+        pang.particle.SetActive(true);
+
+        pang.StartCoroutine(WaitForDestroy());
+    }
+
+    private IEnumerator WaitForDestroy()
+    {
+        yield return new WaitUntil(() => pang.Animator.GetCurrentAnimatorStateInfo(0).IsName("Destroy"));
+
+        while (true)
+        {
+            if (pang.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
+            {
+                ObjectManager.Instance.pangs.Enqueue(pang);
+
+                break;
+            }
+
+            yield return null;
+        }
+    }
 }

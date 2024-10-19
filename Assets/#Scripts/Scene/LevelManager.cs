@@ -3,9 +3,6 @@ using UnityEngine;
 
 public class LevelManager : Singleton<LevelManager>
 {
-    private Directions spawnDir;
-    private Vector3 spawnVector;
-
     private int moveCount;
     private Pang spawnPang;
 
@@ -18,6 +15,9 @@ public class LevelManager : Singleton<LevelManager>
 
     private readonly List<Block> spawnBlocks = new();
     private readonly List<PastelType> pastelTypes = new();
+
+    public Directions SpawnDir { get; private set; }
+    public Vector3 SpawnVector { get; private set; }
 
     public int MoveCount
     {
@@ -38,30 +38,30 @@ public class LevelManager : Singleton<LevelManager>
     public void SetDirection(Directions _dir)
     {
         spawnBlocks.Clear();
-        spawnDir = _dir;
+        SpawnDir = _dir;
 
-        switch (spawnDir)
+        switch (SpawnDir)
         {
             case Directions.Up:
-                spawnVector = Vector3.up;
+                SpawnVector = Vector3.up;
 
                 for (int i = 0; i < BoardCreator.Instance.boardSize[0]; i++) spawnBlocks.Add(BoardCreator.Instance[i, BoardCreator.Instance.boardSize[1] - 1]);
                 break;
 
             case Directions.Right:
-                spawnVector = Vector3.right;
+                SpawnVector = Vector3.right;
 
                 for (int i = 0; i < BoardCreator.Instance.boardSize[1]; i++) spawnBlocks.Add(BoardCreator.Instance[BoardCreator.Instance.boardSize[0] - 1, i]);
                 break;
 
             case Directions.Down:
-                spawnVector = Vector3.down;
+                SpawnVector = Vector3.down;
 
                 for (int i = BoardCreator.Instance.boardSize[0] - 1; i >= 0; i--) spawnBlocks.Add(BoardCreator.Instance[i, 0]);
                 break;
 
             case Directions.Left:
-                spawnVector = Vector3.left;
+                SpawnVector = Vector3.left;
 
                 for (int i = BoardCreator.Instance.boardSize[1] - 1; i >= 0; i--) spawnBlocks.Add(BoardCreator.Instance[0, i]);
                 break;
@@ -93,7 +93,7 @@ public class LevelManager : Singleton<LevelManager>
         if (_block.BlockState == BlockState.Empty)
         {
             spawnPang = ObjectManager.Instance.pangs.Dequeue();
-            spawnPang.transform.position = _block.transform.position + spawnVector;
+            spawnPang.transform.position = _block.transform.position + SpawnVector;
             spawnPang.TargetBlock = _block;
 
             spawnPang.SetType(pastelTypes[Random.Range(0, pastelTypes.Count)]);
@@ -119,7 +119,7 @@ public class LevelManager : Singleton<LevelManager>
     {
         get
         {
-            return spawnDir switch
+            return SpawnDir switch
             {
                 Directions.Up => BoardCreator.Instance[_pos[0] + _x, _pos[1] + _y],
                 Directions.Right => BoardCreator.Instance[_pos[0] + _y, _pos[1] - _x],
@@ -132,7 +132,7 @@ public class LevelManager : Singleton<LevelManager>
 
     public bool CheckOutBlockIndex(int[] _pos, int _x, int _y)
     {
-        switch (spawnDir)
+        switch (SpawnDir)
         {
             case Directions.Up:
                 _x = _pos[0] + _x;
@@ -170,26 +170,32 @@ public class LevelManager : Singleton<LevelManager>
 
         if (selectBlocks[0] == null)
         {
+            _block.TargetPang.selectImage.SetActive(true);
+
             selectBlocks[0] = _block;
-            selectBlocks[0].TargetPang.selectImage.SetActive(true);
         }
         else if (selectBlocks[0] == _block)
         {
+            _block.TargetPang.selectImage.SetActive(false);
+
             selectBlocks[0] = null;
-            selectBlocks[0].TargetPang.selectImage.SetActive(false);
         }
         else if (selectBlocks[1] == null)
         {
+            _block.TargetPang.selectImage.SetActive(true);
+
             selectBlocks[1] = _block;
-            selectBlocks[1].TargetPang.selectImage.SetActive(true);
 
             Pang _pang = selectBlocks[1].TargetPang;
 
             selectBlocks[0].TargetPang.Swap(selectBlocks[1]);
             _pang.Swap(selectBlocks[0]);
-
-            selectBlocks[0] = null;
-            selectBlocks[1] = null;
         }
+    }
+
+    public void ClearSelect()
+    {
+        selectBlocks[0] = null;
+        selectBlocks[1] = null;
     }
 }

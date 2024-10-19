@@ -43,4 +43,10 @@ public class PangType_Item : PangTypeBase
             pang.transform.position = Vector2.MoveTowards(pang.transform.position, pang.TargetBlock.transform.position, Time.deltaTime * moveSpeed);
         }
     }
+
+    public override void OnDestroy()
+    {
+        pang.TargetBlock = null;
+        ObjectManager.Instance.pangs.Enqueue(pang);
+    }
 }

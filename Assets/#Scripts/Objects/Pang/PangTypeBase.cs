@@ -31,6 +31,8 @@ public abstract class PangTypeBase
 
     public abstract void OnMove();
 
+    public abstract void OnDestroy();
+
     protected bool CheckSideBlock(int _x, int _y)
     {
         nextBlock = LevelManager.Instance[pang.TargetBlock.Pos, _x, _y];

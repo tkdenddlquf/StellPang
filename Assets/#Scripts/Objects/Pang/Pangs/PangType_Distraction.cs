@@ -21,4 +21,10 @@ public class PangType_Distraction : PangTypeBase
             else if (LevelManager.Instance.CheckOutBlockIndex(pang.TargetBlock.Pos, 0, -i)) break;
         }
     }
+
+    public override void OnDestroy()
+    {
+        pang.TargetBlock = null;
+        ObjectManager.Instance.pangs.Enqueue(pang);
+    }
 }

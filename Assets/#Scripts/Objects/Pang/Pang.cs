@@ -3,6 +3,7 @@ using UnityEngine;
 public class Pang : MonoBehaviour
 {
     public GameObject selectImage;
+    public GameObject particle;
 
     public SpriteRenderer pangImage;
     public SpriteRenderer pangGlow;
@@ -12,6 +13,7 @@ public class Pang : MonoBehaviour
     private Block targetBlock;
 
     public int PangTypeNum { get; private set; }
+    public Animator Animator { get; private set; }
     public PangType PangType { get; private set; }
     public PangTypeBase StateBase { get; private set; }
 
@@ -38,6 +40,11 @@ public class Pang : MonoBehaviour
                 targetBlock.BlockState = BlockState.Reserved;
             }
         }
+    }
+
+    private void Start()
+    {
+        Animator = GetComponent<Animator>();
     }
 
     private void Update()

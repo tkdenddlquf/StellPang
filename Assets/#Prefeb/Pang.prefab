@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1875351649005302343}
   - component: {fileID: 7309842473561842854}
   - component: {fileID: 1372490593345974730}
+  - component: {fileID: 2687057587747870625}
   m_Layer: 0
   m_Name: Pang
   m_TagString: Untagged
@@ -85,7 +86,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.1636363, y: 1.1636363}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
@@ -104,8 +105,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectImage: {fileID: 6036201688507048847}
+  particle: {fileID: 4733067366871311786}
   pangImage: {fileID: 7309842473561842854}
   pangGlow: {fileID: 3499510205544129937}
+  isMove: 0
+--- !u!95 &2687057587747870625
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1972477604873243684}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 83936e9ffc86a5449bdeb85e9f0e80a9, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &4733067366871311786
 GameObject:
   m_ObjectHideFlags: 0

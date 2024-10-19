@@ -42,7 +42,8 @@ RenderSettings:
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 12
+  serializedVersion: 13
+  m_BakeOnSceneLoad: 0
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -667,6 +668,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 573729258fb20df488ac061a726b618c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  match: 0
+  selectBlocks:
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &1115228168
 GameObject:
   m_ObjectHideFlags: 0
@@ -886,6 +891,7 @@ MonoBehaviour:
   m_DeselectOnBackgroundClick: 1
   m_PointerBehavior: 0
   m_CursorLockBehavior: 0
+  m_ScrollDeltaPerTick: 6
 --- !u!114 &1444600688
 MonoBehaviour:
   m_ObjectHideFlags: 0
