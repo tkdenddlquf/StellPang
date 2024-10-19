@@ -2,22 +2,25 @@ public abstract class PangTypeBase
 {
     protected Pang pang;
 
-    private bool isMove;
-
     protected int moveSpeed = 7;
     protected Block nextBlock;
 
     protected bool IsMove
     {
-        get => isMove;
+        get => pang.isMove;
         set
         {
-            if (isMove == value) return;
+            if (pang.isMove == value) return;
 
-            isMove = value;
+            pang.isMove = value;
 
-            if (value) GameManager._instance.LevelManager.MoveCount++;
-            else GameManager._instance.LevelManager.MoveCount--;
+            if (value) LevelManager.Instance.MoveCount++;
+            else
+            {
+                LevelManager.Instance.MoveCount--;
+
+                pang.selectImage.SetActive(false);
+            }
         }
     }
 
@@ -26,5 +29,22 @@ public abstract class PangTypeBase
         pang = _pang;
     }
 
-    public abstract void Move();
+    public abstract void OnMove();
+
+    protected bool CheckSideBlock(int _x, int _y)
+    {
+        nextBlock = LevelManager.Instance[pang.TargetBlock.Pos, _x, _y];
+
+        if (nextBlock != null)
+        {
+            if (nextBlock.BlockState == BlockState.Empty && nextBlock.Blocked)
+            {
+                pang.TargetBlock = nextBlock;
+
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

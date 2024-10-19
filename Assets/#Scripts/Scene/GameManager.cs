@@ -1,10 +1,7 @@
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : Singleton<GameManager>
 {
-    public static GameManager _instance;
-    private void Awake() { _instance = this; }
-
     public Sprite[] itemSprite;
     public Sprite[] distractionSprite;
     public Sprite[] pastelSprite_Idle;
@@ -16,26 +13,18 @@ public class GameManager : MonoBehaviour
         new(123, 102, 160, 255), new(42, 48, 81, 255), new(238, 113, 135, 255), new(72, 209, 136, 255)
     };
 
-    public BoardCreator BoardCreator { get; private set; }
-    public LevelManager LevelManager { get; private set; }
-    public ObjectManager ObjectManager { get; private set; }
-
     private void Start()
     {
-        BoardCreator = GetComponent<BoardCreator>();
-        LevelManager = GetComponent<LevelManager>();
-        ObjectManager = GetComponent<ObjectManager>();
+        BoardCreator.Instance.boardSize[0] = 10;
+        BoardCreator.Instance.boardSize[1] = 10;
 
-        BoardCreator.boardSize[0] = 10;
-        BoardCreator.boardSize[1] = 10;
+        BoardCreator.Instance.CreateBoard();
 
-        BoardCreator.CreateBoard();
+        LevelManager.Instance.SetDirection(Directions.Up);
+        LevelManager.Instance.SetPastelType(4);
 
-        LevelManager.SetDirection(Directions.Up);
-        LevelManager.SetPastelType(4);
+        LevelManager.Instance.SpawnPang(BoardCreator.Instance[3, 3], DistractionType.Stone);
 
-        LevelManager.SpawnPang(BoardCreator[3, 3], DistractionType.Stone);
-
-        LevelManager.SpawnAllPangs();
+        LevelManager.Instance.SpawnAllPangs();
     }
 }

@@ -4,10 +4,20 @@ public class Block : MonoBehaviour
 {
     public SpriteRenderer background;
 
+    public bool Blocked { get; set; }
+
     public Pang TargetPang { get; set; }
     public BlockState BlockState { get; set; }
 
     public int[] Pos { get; set; } = new int[2];
+
+    public void OnMouseDown()
+    {
+        if (TargetPang == null) return;
+        if (LevelManager.Instance.MoveCount != 0) return;
+
+        LevelManager.Instance.SelectBlock(this);
+    }
 
     public bool CheckPangType(Block _block)
     {
@@ -15,19 +25,4 @@ public class Block : MonoBehaviour
 
         return false;
     }
-
-    public void OnMouseDown()
-    {
-        if (TargetPang == null) return;
-        if (GameManager._instance.LevelManager.MoveCount != 0) return;
-
-        TargetPang.selectImage.SetActive(!TargetPang.selectImage.activeSelf);
-    }
-}
-
-public enum BlockState
-{
-    Empty,
-    Reserved,
-    Filled
 }

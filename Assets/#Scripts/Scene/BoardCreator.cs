@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BoardCreator : MonoBehaviour
+public class BoardCreator : Singleton<BoardCreator>
 {
     public SpriteMask mask;
 
@@ -34,7 +34,7 @@ public class BoardCreator : MonoBehaviour
         {
             for (int y = 0; y < boardSize[0]; y++)
             {
-                Board[x, y] = GameManager._instance.ObjectManager.blocks.Dequeue();
+                Board[x, y] = ObjectManager.Instance.blocks.Dequeue();
 
                 Board[x, y].Pos[0] = y;
                 Board[x, y].Pos[1] = x;

@@ -3,16 +3,13 @@ using UnityEngine;
 
 public class ObjectPool<T> where T : Object
 {
-    public DequeueFunc dequeueFunc;
-    public EnqueueFunc enqueueFunc;
+    public System.Action<T> DeAction { private get; set; }
+    public System.Action<T> EnAction { private get; set; }
 
-    private readonly T poolObject;
     private readonly Transform parent;
+    private readonly T poolObject;
 
     private readonly Queue<T> poolObjects = new();
-
-    public delegate void DequeueFunc(T _object);
-    public delegate void EnqueueFunc(T _object);
 
     public ObjectPool(T _poolObject, Transform _parent)
     {
@@ -24,14 +21,16 @@ public class ObjectPool<T> where T : Object
     {
         if (poolObjects.Count == 0) poolObjects.Enqueue(Object.Instantiate(poolObject, parent));
 
-        dequeueFunc?.Invoke(poolObjects.Peek());
+        DeAction?.Invoke(poolObjects.Peek());
 
         return poolObjects.Dequeue();
     }
 
     public void Enqueue(T _object)
     {
-        enqueueFunc?.Invoke(_object);
+        if (_object == null) return;
+
+        EnAction?.Invoke(_object);
 
         poolObjects.Enqueue(_object);
     }

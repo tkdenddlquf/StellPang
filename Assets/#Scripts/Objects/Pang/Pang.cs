@@ -7,6 +7,8 @@ public class Pang : MonoBehaviour
     public SpriteRenderer pangImage;
     public SpriteRenderer pangGlow;
 
+    public bool isMove;
+
     private Block targetBlock;
 
     public int PangTypeNum { get; private set; }
@@ -25,7 +27,7 @@ public class Pang : MonoBehaviour
                 targetBlock.TargetPang = null;
                 targetBlock.BlockState = BlockState.Empty;
 
-                GameManager._instance.LevelManager.SpawnPang(targetBlock);
+                LevelManager.Instance.SpawnPang(targetBlock);
             }
 
             targetBlock = value;
@@ -38,12 +40,17 @@ public class Pang : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        StateBase.OnMove();
+    }
+
     public void SetType(PastelType _type)
     {
         StateBase = new PangType_Pastel(this);
 
-        pangImage.sprite = GameManager._instance.pastelSprite_Idle[(int)_type];
-        pangGlow.color = GameManager._instance.pastelGlow_Color[(int)_type];
+        pangImage.sprite = GameManager.Instance.pastelSprite_Idle[(int)_type];
+        pangGlow.color = GameManager.Instance.pastelGlow_Color[(int)_type];
 
         PangType = PangType.Pastel;
         PangTypeNum = (int)_type;
@@ -53,63 +60,29 @@ public class Pang : MonoBehaviour
     {
         StateBase = new PangType_Item(this);
 
-        pangImage.sprite = GameManager._instance.itemSprite[(int)_type];
+        pangImage.sprite = GameManager.Instance.itemSprite[(int)_type];
         pangGlow.color = Color.black;
 
         PangType = PangType.Item;
         PangTypeNum = (int)_type;
 
-        GameManager._instance.LevelManager.AddItemPang(this);
+        LevelManager.Instance.itemPangs.Add(this);
     }
 
     public void SetType(DistractionType _type)
     {
         StateBase = new PangType_Distraction(this);
 
-        pangImage.sprite = GameManager._instance.distractionSprite[(int)_type];
+        pangImage.sprite = GameManager.Instance.distractionSprite[(int)_type];
         pangGlow.color = Color.black;
 
         PangType = PangType.Distraction;
         PangTypeNum = (int)_type;
     }
-}
 
-public enum PangType
-{
-    Pastel,
-    Item,
-    Distraction
-}
-
-public enum DistractionType
-{
-    Stone,
-    Box,
-    Ice
-}
-
-public enum ItemType
-{
-    BombVert,
-    BombHori,
-    BombSmallCross,
-    BombLargeCross,
-    Bomb3x3,
-    Bomb5x5,
-    Bomb7x7,
-}
-
-public enum PastelType
-{
-    GangGi,
-    Kanna,
-    Yuni,
-    Hina,
-    Shiro,
-    Lize,
-    Tabi,
-    Buki,
-    Rin,
-    Nana,
-    Riko
+    public void Swap(Block _block)
+    {
+        targetBlock = _block;
+        targetBlock.TargetPang = this;
+    }
 }
