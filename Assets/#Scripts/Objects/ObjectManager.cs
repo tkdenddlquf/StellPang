@@ -38,6 +38,8 @@ public class ObjectManager : Singleton<ObjectManager>
         _pang.gameObject.SetActive(false);
 
         _pang.transform.position = new(99, 99);
+
+        _pang.particle.SetActive(false);
     }
 
     private void DequeueBlock(Block _block)
@@ -52,5 +54,11 @@ public class ObjectManager : Singleton<ObjectManager>
         _block.gameObject.SetActive(false);
 
         _block.transform.position = new(99, 99);
+
+        if (_block.TargetPang != null)
+        {
+            pangs.Enqueue(_block.TargetPang);
+            _block.TargetPang = null;
+        }
     }
 }

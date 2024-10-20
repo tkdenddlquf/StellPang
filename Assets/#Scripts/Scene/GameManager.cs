@@ -20,11 +20,19 @@ public class GameManager : Singleton<GameManager>
 
         BoardCreator.Instance.CreateBoard();
 
-        LevelManager.Instance.SetDirection(Directions.Up);
-        LevelManager.Instance.SetPastelType(4);
+        LevelManager.Instance.spawnHandle.SetDirection(Directions.Up);
+        LevelManager.Instance.spawnHandle.SetPastelType(5);
 
-        LevelManager.Instance.SpawnPang(BoardCreator.Instance[3, 3], DistractionType.Stone);
+        LevelManager.Instance.spawnHandle.SpawnPang(BoardCreator.Instance[3, 3], DistractionType.Stone);
+        LevelManager.Instance.spawnHandle.SpawnPang(BoardCreator.Instance[3, 4], DistractionType.Stone);
+        LevelManager.Instance.spawnHandle.SpawnPang(BoardCreator.Instance[3, 5], DistractionType.Stone);
+        LevelManager.Instance.spawnHandle.SpawnPang(BoardCreator.Instance[4, 3], DistractionType.Stone);
+        LevelManager.Instance.spawnHandle.SpawnPang(BoardCreator.Instance[4, 4], DistractionType.Stone);
+        LevelManager.Instance.spawnHandle.SpawnPang(BoardCreator.Instance[4, 5], DistractionType.Stone);
+        LevelManager.Instance.spawnHandle.SpawnPang(BoardCreator.Instance[5, 3], DistractionType.Stone);
+        LevelManager.Instance.spawnHandle.SpawnPang(BoardCreator.Instance[5, 4], DistractionType.Stone);
+        LevelManager.Instance.spawnHandle.SpawnPang(BoardCreator.Instance[5, 5], DistractionType.Stone);
 
-        LevelManager.Instance.SpawnAllPangs();
+        LevelManager.Instance.spawnHandle.SpawnAllPangs();
     }
 }

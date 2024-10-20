@@ -2,7 +2,9 @@ public abstract class PangTypeBase
 {
     protected Pang pang;
 
-    protected int moveSpeed = 7;
+    protected int moveSpeed = 9;
+    protected float removeDelay;
+
     protected Block nextBlock;
 
     protected bool IsMove
@@ -24,6 +26,20 @@ public abstract class PangTypeBase
         }
     }
 
+    protected bool IsDestroy
+    {
+        get => pang.isDestroy;
+        set
+        {
+            if (pang.isDestroy == value) return;
+
+            pang.isDestroy = value;
+
+            if (value) LevelManager.Instance.DestroyCount++;
+            else LevelManager.Instance.DestroyCount--;
+        }
+    }
+
     protected PangTypeBase(Pang _pang)
     {
         pang = _pang;
@@ -33,9 +49,14 @@ public abstract class PangTypeBase
 
     public abstract void OnDestroy();
 
+    public void SetRemoveDelay(float _delay)
+    {
+        removeDelay = _delay;
+    }
+
     protected bool CheckSideBlock(int _x, int _y)
     {
-        nextBlock = LevelManager.Instance[pang.TargetBlock.Pos, _x, _y];
+        nextBlock = LevelManager.Instance.blockHandle[pang.TargetBlock.Pos, _x, _y];
 
         if (nextBlock != null)
         {

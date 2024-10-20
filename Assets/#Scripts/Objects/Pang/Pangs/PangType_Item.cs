@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class PangType_Item : PangTypeBase
 {
+    private readonly ItemHandle itemHandle = new();
+
     public PangType_Item(Pang _pang) : base(_pang)
     {
 
@@ -11,11 +13,12 @@ public class PangType_Item : PangTypeBase
     public override void OnMove()
     {
         if (pang.TargetBlock == null) return;
-        if (LevelManager.Instance.match) return;
+        if (LevelManager.Instance.Match) return;
+        if (LevelManager.Instance.DestroyCount != 0) return;
 
         if (pang.transform.position == pang.TargetBlock.transform.position)
         {
-            nextBlock = LevelManager.Instance[pang.TargetBlock.Pos, 0, -1];
+            nextBlock = LevelManager.Instance.blockHandle[pang.TargetBlock.Pos, 0, -1];
 
             if (nextBlock != null)
             {
@@ -46,7 +49,40 @@ public class PangType_Item : PangTypeBase
 
     public override void OnDestroy()
     {
-        pang.TargetBlock = null;
-        ObjectManager.Instance.pangs.Enqueue(pang);
+        if (IsDestroy) return;
+
+        IsDestroy = true;
+
+        pang.StartCoroutine(WaitForDestroy());
+    }
+
+    private IEnumerator WaitForDestroy()
+    {
+        yield return new WaitForSeconds(removeDelay);
+
+        pang.Animator.Play("Destroy");
+        pang.particle.SetActive(true);
+
+        LevelManager.Instance.itemPangs.Remove(pang);
+
+        yield return new WaitUntil(() => pang.Animator.GetCurrentAnimatorStateInfo(0).IsName("Destroy"));
+
+        itemHandle.UseItem(pang.TargetBlock);
+
+        while (true)
+        {
+            if (pang.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
+            {
+                pang.TargetBlock = null;
+
+                ObjectManager.Instance.pangs.Enqueue(pang);
+
+                IsDestroy = false;
+
+                break;
+            }
+
+            yield return null;
+        }
     }
 }

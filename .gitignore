@@ -1,10 +1,9 @@
 # Created by https://www.toptal.com/developers/gitignore/api/unity,windows,visualstudiocode,macos,visualstudio
 # Edit at https://www.toptal.com/developers/gitignore?templates=unity,windows,visualstudiocode,macos,visualstudio
 
-### Server Datas ###
+### Datas ###
 Assets/#Fonts
-Assets/#Datas
-ServerData/
+Assets/#Sprite
 
 ### macOS ###
 # General

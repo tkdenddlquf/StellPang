@@ -9,6 +9,7 @@ public class Pang : MonoBehaviour
     public SpriteRenderer pangGlow;
 
     public bool isMove;
+    public bool isDestroy;
 
     private Block targetBlock;
 
@@ -29,7 +30,7 @@ public class Pang : MonoBehaviour
                 targetBlock.TargetPang = null;
                 targetBlock.BlockState = BlockState.Empty;
 
-                LevelManager.Instance.SpawnPang(targetBlock);
+                LevelManager.Instance.spawnHandle.SpawnPang(targetBlock);
             }
 
             targetBlock = value;
