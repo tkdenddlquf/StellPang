@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class MatchSystem
 {
+    private bool hint;
     private bool match;
+
+    private float hintTime;
 
     public List<Block> AllBlcoks { get; } = new();
 
@@ -26,6 +29,8 @@ public class MatchSystem
         if (LevelManager.Instance.Match) yield break;
 
         LevelManager.Instance.Match = true;
+
+        if (hintHandle.hint != null && hintHandle.hint.gameObject.activeSelf) hintHandle.hint.Animator.Play("Idle");
 
         AllBlcoks.Clear();
         RemoveBlcoks.Clear();
@@ -140,12 +145,31 @@ public class MatchSystem
             LevelManager.Instance.Combo = 0;
             LevelManager.Instance.blockHandle.SwapSelect();
 
-            if (hintHandle.CheckHint()) Debug.Log("힌트");
+            if (hintHandle.CheckHint()) LevelManager.Instance.StartCoroutine(NoticeHint());
             else if (LevelManager.Instance.itemPangs.Count != 0) Debug.Log("아이템 사용");
-            else Debug.Log("리셋");
+            else
+            {
+                Debug.Log("리셋");
+
+                yield return null;
+
+                for (int i = 0; i < BoardCreator.Instance.boardSize[0]; i++)
+                {
+                    for (int j = 0; j < BoardCreator.Instance.boardSize[1]; j++)
+                    {
+                        if (BoardCreator.Instance[i, j] == null) continue;
+                        if (BoardCreator.Instance[i, j].TargetPang == null) continue;
+                        if (BoardCreator.Instance[i, j].TargetPang.PangType == PangType.Distraction) continue;
+
+                        BoardCreator.Instance[i, j].TargetPang.Remove();
+                    }
+                }
+            }
         }
         else
         {
+            hint = false;
+
             LevelManager.Instance.Combo++;
 
             foreach (Block _block in RemoveBlcoks) _block.TargetPang.StateBase.OnDestroy();
@@ -155,6 +179,26 @@ public class MatchSystem
 
         LevelManager.Instance.Match = false;
         LevelManager.Instance.blockHandle.ClearSelect();
+    }
+
+    public IEnumerator NoticeHint()
+    {
+        if (hint) yield break;
+
+        hint = true;
+        hintTime = Time.time;
+
+        while (true)
+        {
+            if (Time.time - hintTime >= LevelManager.Instance.hintTime)
+            {
+                hintHandle.hint.Animator.Play("Hint");
+
+                yield break;
+            }
+
+            yield return null;
+        }
     }
 
     public bool IsCheckable(Block _block)

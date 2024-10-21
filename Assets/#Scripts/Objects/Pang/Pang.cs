@@ -93,4 +93,16 @@ public class Pang : MonoBehaviour
         targetBlock = _block;
         targetBlock.TargetPang = this;
     }
+
+    public void Remove()
+    {
+        Animator.Play("Idle");
+
+        isMove = false;
+        isDestroy = false;
+
+        TargetBlock = null;
+
+        ObjectManager.Instance.pangs.Enqueue(this);
+    }
 }

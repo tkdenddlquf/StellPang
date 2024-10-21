@@ -668,10 +668,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 573729258fb20df488ac061a726b618c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  match: 0
-  selectBlocks:
-  - {fileID: 0}
-  - {fileID: 0}
+  hintTime: 10
 --- !u!1 &1115228168
 GameObject:
   m_ObjectHideFlags: 0

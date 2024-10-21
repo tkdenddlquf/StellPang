@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class HintHandle
 {
-    public Block hint;
+    public Pang hint;
     public Block record;
 
     public readonly int[] dir = new int[2];
@@ -57,7 +57,7 @@ public class HintHandle
         return false;
     }
 
-    private Block CheckSideUp(Block _block, int _x, int _y, bool _left)
+    private Pang CheckSideUp(Block _block, int _x, int _y, bool _left)
     {
         if (LevelManager.Instance.blockHandle.CheckOutBlockIndex(_block.Pos, _x, _y)) return null;
 
@@ -77,10 +77,10 @@ public class HintHandle
 
         if (!CheckSameType(_block, LevelManager.Instance.blockHandle[_block.Pos, _x, _y])) return null;
 
-        return record;
+        return record.TargetPang;
     }
 
-    private Block CheckBothUp(Block _block, int _x, int _y)
+    private Pang CheckBothUp(Block _block, int _x, int _y)
     {
         if (LevelManager.Instance.blockHandle.CheckOutBlockIndex(_block.Pos, _x, _y)) return null;
 
@@ -97,10 +97,10 @@ public class HintHandle
 
         if (!CheckSameType(_block, LevelManager.Instance.blockHandle[record.Pos, _x, _y])) return null;
 
-        return _block;
+        return _block.TargetPang;
     }
 
-    private Block CheckOneWay(Block _block, int _x, int _y)
+    private Pang CheckOneWay(Block _block, int _x, int _y)
     {
         if (LevelManager.Instance.blockHandle.CheckOutBlockIndex(_block.Pos, _x, _y)) return null;
 
@@ -111,10 +111,10 @@ public class HintHandle
         if (!CheckSameType(_block, LevelManager.Instance.blockHandle[record.Pos, _x, _y])) return null;
         if (!CheckSameType(_block, LevelManager.Instance.blockHandle[record.Pos, _x * 2, _y * 2])) return null;
 
-        return _block;
+        return _block.TargetPang;
     }
 
-    private Block CheckBox(Block _block, int _x, int _y)
+    private Pang CheckBox(Block _block, int _x, int _y)
     {
         if (LevelManager.Instance.blockHandle.CheckOutBlockIndex(_block.Pos, _x, _y)) return null;
 
@@ -122,17 +122,23 @@ public class HintHandle
 
         if (!IsMoveable(record)) return null;
 
-        if (!CheckSameType(_block, LevelManager.Instance.blockHandle[record.Pos, _x, _y])) return null;
+        record = LevelManager.Instance.blockHandle[record.Pos, _x, _y];
+
+        if (!CheckSameType(_block, record)) return null;
 
         matchSystem.RotateDir(ref _x, ref _y);
 
-        if (!CheckSameType(_block, LevelManager.Instance.blockHandle[record.Pos, _x, _y])) return null;
+        record = LevelManager.Instance.blockHandle[record.Pos, _x, _y];
 
-        matchSystem.RotateDir(ref _x, ref _y, false);
+        if (!CheckSameType(_block, record)) return null;
 
-        if (!CheckSameType(_block, LevelManager.Instance.blockHandle[record.Pos, _x, _y])) return null;
+        matchSystem.RotateDir(ref _x, ref _y);
 
-        return _block;
+        record = LevelManager.Instance.blockHandle[record.Pos, _x, _y];
+
+        if (!CheckSameType(_block, record)) return null;
+
+        return _block.TargetPang;
     }
 
     private bool CheckSameType(Block _block_1, Block _block_2)

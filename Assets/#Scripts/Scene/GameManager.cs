@@ -21,7 +21,7 @@ public class GameManager : Singleton<GameManager>
         BoardCreator.Instance.CreateBoard();
 
         LevelManager.Instance.spawnHandle.SetDirection(Directions.Up);
-        LevelManager.Instance.spawnHandle.SetPastelType(5);
+        LevelManager.Instance.spawnHandle.SetPastelType(10);
 
         LevelManager.Instance.spawnHandle.SpawnPang(BoardCreator.Instance[3, 3], DistractionType.Stone);
         LevelManager.Instance.spawnHandle.SpawnPang(BoardCreator.Instance[3, 4], DistractionType.Stone);

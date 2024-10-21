@@ -5,6 +5,8 @@ public class LevelManager : Singleton<LevelManager>
 {
     private int moveCount;
 
+    public float hintTime = 10f;
+
     public readonly List<Pang> itemPangs = new();
 
     public readonly BlockHandle blockHandle = new();
