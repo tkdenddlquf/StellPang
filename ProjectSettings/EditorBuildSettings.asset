@@ -6,8 +6,17 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/#Scenes/Main.unity
+    path: Assets/#Scenes/Title.unity
+    guid: 8a2e09432adb2234ea9834eef9e34fca
+  - enabled: 1
+    path: Assets/#Scenes/Loading.unity
+    guid: 3730ce89aed5a854780f557660403d67
+  - enabled: 1
+    path: Assets/#Scenes/TimeAttack.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
+  - enabled: 1
+    path: Assets/#Scenes/Stage.unity
+    guid: d28f1418b867de2409502e847c9d4415
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

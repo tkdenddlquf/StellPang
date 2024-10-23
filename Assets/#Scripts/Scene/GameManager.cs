@@ -15,24 +15,6 @@ public class GameManager : Singleton<GameManager>
 
     private void Start()
     {
-        BoardCreator.Instance.boardSize[0] = 10;
-        BoardCreator.Instance.boardSize[1] = 10;
-
-        BoardCreator.Instance.CreateBoard();
-
-        LevelManager.Instance.spawnHandle.SetDirection(Directions.Up);
-        LevelManager.Instance.spawnHandle.SetPastelType(10);
-
-        LevelManager.Instance.spawnHandle.SpawnPang(BoardCreator.Instance[3, 3], DistractionType.Stone);
-        LevelManager.Instance.spawnHandle.SpawnPang(BoardCreator.Instance[3, 4], DistractionType.Stone);
-        LevelManager.Instance.spawnHandle.SpawnPang(BoardCreator.Instance[3, 5], DistractionType.Stone);
-        LevelManager.Instance.spawnHandle.SpawnPang(BoardCreator.Instance[4, 3], DistractionType.Stone);
-        LevelManager.Instance.spawnHandle.SpawnPang(BoardCreator.Instance[4, 4], DistractionType.Stone);
-        LevelManager.Instance.spawnHandle.SpawnPang(BoardCreator.Instance[4, 5], DistractionType.Stone);
-        LevelManager.Instance.spawnHandle.SpawnPang(BoardCreator.Instance[5, 3], DistractionType.Stone);
-        LevelManager.Instance.spawnHandle.SpawnPang(BoardCreator.Instance[5, 4], DistractionType.Stone);
-        LevelManager.Instance.spawnHandle.SpawnPang(BoardCreator.Instance[5, 5], DistractionType.Stone);
-
-        LevelManager.Instance.spawnHandle.SpawnAllPangs();
+        DontDestroyOnLoad(this);
     }
 }
