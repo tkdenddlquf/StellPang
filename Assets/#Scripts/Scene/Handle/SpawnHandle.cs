@@ -23,6 +23,11 @@ public class SpawnHandle
         }
     }
 
+    public int GetPangType(int _type)
+    {
+        return (int)pastelTypes[_type];
+    }
+
     public void SetDirection(Directions _dir)
     {
         spawnBlocks.Clear();

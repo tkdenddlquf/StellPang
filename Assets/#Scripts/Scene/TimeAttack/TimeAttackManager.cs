@@ -8,6 +8,8 @@ public class TimeAttackManager : MonoBehaviour
 
     public LerpSlider timer = new();
 
+    private BoardData boardData;
+
     private readonly LerpAction lerpAction = new();
 
     private void Start()
@@ -30,27 +32,26 @@ public class TimeAttackManager : MonoBehaviour
 
     public void TimeAttack()
     {
-        BoardCreator.Instance.boardSize[0] = 10;
-        BoardCreator.Instance.boardSize[1] = 10;
+        boardData = JsonUtility.FromJson<BoardData>(Resources.Load<TextAsset>("Json/TimeAttack").text);
 
-        BoardCreator.Instance.CreateBoard();
+        BoardCreator.Instance.CreateBoard(boardData);
 
-        LevelManager.Instance.spawnHandle.SetDirection(Directions.Up);
-        LevelManager.Instance.spawnHandle.SetPastelType(10);
+        LevelManager.Instance.spawnHandle.SetDirection(boardData.dir);
+        LevelManager.Instance.spawnHandle.SetPastelType(boardData.pangCount);
 
-        LevelManager.Instance.spawnHandle.SpawnPang(BoardCreator.Instance[3, 3], DistractionType.Stone);
-        LevelManager.Instance.spawnHandle.SpawnPang(BoardCreator.Instance[3, 4], DistractionType.Stone);
-        LevelManager.Instance.spawnHandle.SpawnPang(BoardCreator.Instance[3, 5], DistractionType.Stone);
-        LevelManager.Instance.spawnHandle.SpawnPang(BoardCreator.Instance[4, 3], DistractionType.Stone);
-        LevelManager.Instance.spawnHandle.SpawnPang(BoardCreator.Instance[4, 4], DistractionType.Stone);
-        LevelManager.Instance.spawnHandle.SpawnPang(BoardCreator.Instance[4, 5], DistractionType.Stone);
-        LevelManager.Instance.spawnHandle.SpawnPang(BoardCreator.Instance[5, 3], DistractionType.Stone);
-        LevelManager.Instance.spawnHandle.SpawnPang(BoardCreator.Instance[5, 4], DistractionType.Stone);
-        LevelManager.Instance.spawnHandle.SpawnPang(BoardCreator.Instance[5, 5], DistractionType.Stone);
+        for (int _y = 0; _y < boardData.blocks.Length; _y++)
+        {
+            for (int _x = 0; _x < boardData.blocks[^(_y + 1)].blockNums.Length; _x++)
+            {
+                if (boardData.blocks[^(_y + 1)].blockNums[_x] <= 0) continue;
+
+                LevelManager.Instance.spawnHandle.SpawnPang(BoardCreator.Instance[_x, _y], (DistractionType)(boardData.blocks[^(_y + 1)].blockNums[_x] - 1));
+            }
+        }
 
         LevelManager.Instance.spawnHandle.SpawnAllPangs();
 
-        SetTimer(600);
+        SetTimer(boardData.time);
     }
 
     public void SetTimer(float _time)

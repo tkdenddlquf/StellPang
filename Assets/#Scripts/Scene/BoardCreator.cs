@@ -24,8 +24,11 @@ public class BoardCreator : Singleton<BoardCreator>
 
     public readonly int[] boardSize = new int[2];
 
-    public void CreateBoard()
+    public void CreateBoard(BoardData _boardData)
     {
+        boardSize[0] = _boardData.blocks[0].blockNums.Length;
+        boardSize[1] = _boardData.blocks.Length;
+
         Board = new Block[boardSize[1], boardSize[0]];
 
         Vector2 _startPos = new(-(boardSize[0] - 1f) / 2, -(boardSize[1] - 1f) / 2);
@@ -34,6 +37,8 @@ public class BoardCreator : Singleton<BoardCreator>
         {
             for (int y = 0; y < boardSize[0]; y++)
             {
+                if (_boardData.blocks[^(y + 1)].blockNums[x] == -1) continue;
+
                 Board[x, y] = ObjectManager.Instance.blocks.Dequeue();
 
                 Board[x, y].Pos[0] = y;

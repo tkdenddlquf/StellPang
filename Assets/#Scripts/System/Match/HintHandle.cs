@@ -65,6 +65,8 @@ public class HintHandle
 
         matchSystem.RotateDir(ref _x, ref _y, _left);
 
+        if (record == null) return null;
+
         record = LevelManager.Instance.blockHandle[record.Pos, _x, _y];
 
         if (!CheckSameType(_block, record)) return null;

@@ -1,26 +1,21 @@
 {
+  "title": "타임 어택",
+
   "pangCount": 5,
+  "moveCount": 7,
+
   "time": 30,
-  "board": [
-    { "datas": [ true, true, true, true, true, true, true, true, true ] },
-    { "datas": [ true, true, true, true, true, true, true, true, true ] },
-    { "datas": [ true, true, true, true, true, true, true, true, true ] },
-    { "datas": [ true, true, true, true, true, true, true, true, true ] },
-    { "datas": [ true, true, true, true, true, true, true, true, true ] },
-    { "datas": [ true, true, true, true, true, true, true, true, true ] },
-    { "datas": [ true, true, true, true, true, true, true, true, true ] },
-    { "datas": [ true, true, true, true, true, true, true, true, true ] },
-    { "datas": [ true, true, true, true, true, true, true, true, true ] }
-  ],
-  "beforeBlockTypes": [
-    { "datas": [ 1, 3, 3 ] },
-    { "datas": [ 1, 3, 4 ] },
-    { "datas": [ 1, 3, 5 ] },
-    { "datas": [ 1, 4, 3 ] },
-    { "datas": [ 1, 4, 4 ] },
-    { "datas": [ 1, 4, 5 ] },
-    { "datas": [ 1, 5, 3 ] },
-    { "datas": [ 1, 5, 4 ] },
-    { "datas": [ 1, 5, 5 ] }
+  "dir": 0,
+
+  "blocks": [
+    { "blockNums": [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ] },
+    { "blockNums": [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ] },
+    { "blockNums": [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ] },
+    { "blockNums": [ 0, 0, 0, 1, 1, 1, 0, 0, 0 ] },
+    { "blockNums": [ 0, 0, 0, 1, 1, 1, 0, 0, 0 ] },
+    { "blockNums": [ 0, 0, 0, 1, 1, 1, 0, 0, 0 ] },
+    { "blockNums": [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ] },
+    { "blockNums": [ 0, 1, 0, 0, 0, 0, 0, 0, 0 ] },
+    { "blockNums": [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ] }
   ]
 }

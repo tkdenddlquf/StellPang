@@ -7,6 +7,8 @@ public class LevelManager : Singleton<LevelManager>
 
     public float hintTime = 10f;
 
+    public System.Action<Pang> destroyAction;
+
     public readonly List<Pang> itemPangs = new();
 
     public readonly BlockHandle blockHandle = new();

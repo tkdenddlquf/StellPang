@@ -1,21 +1,23 @@
 {
   "title": "1 단계",
+
   "pangCount": 5,
   "moveCount": 7,
+
   "time": 30,
-  "board": [
-    { "datas": [ true, true, true, true ] },
-    { "datas": [ true, true, true, true ] },
-    { "datas": [ true, true, true, true ] },
-    { "datas": [ true, true, true, true ] }
+  "dir": 0,
+
+  "blocks": [
+    { "blockNums": [ 0, 0, 0, 0 ] },
+    { "blockNums": [ 0, 0, 0, 0 ] },
+    { "blockNums": [ 0, 0, 0, 0 ] },
+    { "blockNums": [ 0, 0, 0, 0 ] }
   ],
   "missions": [
-    { "datas":  [ 1, 1, 6 ] }
-  ],
-  "priorityPangTypes": [
-    0, 1, 1, 2,
-    2, 0, 1, 2,
-    1, 3, 0, 1,
-    2, 3, 2, 3
+    {
+      "type": 0,
+      "typeNum": 1,
+      "count": 6
+    }
   ]
 }

@@ -34,6 +34,7 @@ public abstract class PangTypeBase
             if (pang.isDestroy == value) return;
 
             pang.isDestroy = value;
+            LevelManager.Instance.destroyAction?.Invoke(pang);
 
             if (value) LevelManager.Instance.DestroyCount++;
             else LevelManager.Instance.DestroyCount--;
