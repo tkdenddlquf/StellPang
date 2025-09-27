@@ -13,10 +13,12 @@ public class Block : MonoBehaviour
 
     public void OnMouseDown()
     {
-        if (LevelManager.Instance.MoveCount != 0) return;
-        if (LevelManager.Instance.DestroyCount != 0) return;
+        LevelManager levelManager = LevelManager.Instance;
 
-        LevelManager.Instance.blockHandle.SelectBlock(this);
+        if (levelManager.MoveCount != 0) return;
+        if (levelManager.DestroyCount != 0) return;
+
+        levelManager.blockHandle.SelectBlock(this);
     }
 
     public bool CheckPangType(Block _block)

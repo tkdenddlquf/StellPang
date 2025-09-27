@@ -26,14 +26,16 @@ public class PangType_Distraction : PangTypeBase
     {
         if (pang.TargetBlock.BlockState == BlockState.Filled) return;
 
+        LevelManager levelManager = LevelManager.Instance;
+
         pang.TargetBlock.BlockState = BlockState.Filled;
 
         for (int i = 1; ; i++)
         {
-            nextBlock = LevelManager.Instance.blockHandle[pang.TargetBlock.Pos, 0, -i];
+            nextBlock = levelManager.blockHandle[pang.TargetBlock.Pos, 0, -i];
 
             if (nextBlock != null) nextBlock.Blocked = true;
-            else if (LevelManager.Instance.blockHandle.CheckOutBlockIndex(pang.TargetBlock.Pos, 0, -i)) break;
+            else if (levelManager.blockHandle.CheckOutBlockIndex(pang.TargetBlock.Pos, 0, -i)) break;
         }
     }
 
@@ -46,7 +48,7 @@ public class PangType_Distraction : PangTypeBase
             IsDestroy = true;
             pang.TargetBlock = null;
 
-            ObjectManager.Instance.pangs.Enqueue(pang);
+            ObjectManager.Instance.PangPool.Release(pang);
             IsDestroy = false;
         }
     }

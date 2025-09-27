@@ -4,40 +4,27 @@ public class TimeAttackManager : MonoBehaviour
 {
     public bool isPlay;
 
-    public BindData<float>[] time = new BindData<float>[2];
-
-    public LerpSlider timer = new();
+    public float currentTime;
+    public float maxTime;
 
     private BoardData boardData;
-
-    private readonly LerpAction lerpAction = new();
 
     private void Start()
     {
         TimeAttack();
-
-        timer.action = lerpAction;
-
-        time[0].SetBind(TimeBind);
-    }
-
-    private void FixedUpdate()
-    {
-        lerpAction.actions?.Invoke();
-
-        if (!isPlay) return;
-
-        time[0].Data -= Time.deltaTime;
     }
 
     public void TimeAttack()
     {
+        LevelManager levelManager = LevelManager.Instance;
+        BoardCreator boardCreator = BoardCreator.Instance;
+
         boardData = JsonUtility.FromJson<BoardData>(Resources.Load<TextAsset>("Json/TimeAttack").text);
 
-        BoardCreator.Instance.CreateBoard(boardData);
+        boardCreator.CreateBoard(boardData);
 
-        LevelManager.Instance.spawnHandle.SetDirection(boardData.dir);
-        LevelManager.Instance.spawnHandle.SetPastelType(boardData.pangCount);
+        levelManager.spawnHandle.SetDirection(boardData.dir);
+        levelManager.spawnHandle.SetPastelType(boardData.pangCount);
 
         for (int _y = 0; _y < boardData.blocks.Length; _y++)
         {
@@ -45,29 +32,18 @@ public class TimeAttackManager : MonoBehaviour
             {
                 if (boardData.blocks[^(_y + 1)].blockNums[_x] <= 0) continue;
 
-                LevelManager.Instance.spawnHandle.SpawnPang(BoardCreator.Instance[_x, _y], (DistractionType)(boardData.blocks[^(_y + 1)].blockNums[_x] - 1));
+                levelManager.spawnHandle.SpawnPang(boardCreator[_x, _y], (DistractionType)(boardData.blocks[^(_y + 1)].blockNums[_x] - 1));
             }
         }
 
-        LevelManager.Instance.spawnHandle.SpawnAllPangs();
+        levelManager.spawnHandle.SpawnAllPangs();
 
         SetTimer(boardData.time);
     }
 
     public void SetTimer(float _time)
     {
-        time[1].Data = _time;
-        time[0].Data = _time;
-    }
-
-    // 바인드
-    private void TimeBind(ref float _current, float _change)
-    {
-        if (_change < 0) _change = 0;
-        else if (_change > time[1].Data) _change = time[1].Data;
-
-        _current = _change;
-
-        timer.SetData(_current / time[1].Data);
+        currentTime = 0;
+        maxTime = _time;
     }
 }

@@ -30,6 +30,8 @@ public class SpawnHandle
 
     public void SetDirection(Directions _dir)
     {
+        BoardCreator boardCreator = BoardCreator.Instance;
+
         spawnBlocks.Clear();
         SpawnDir = _dir;
 
@@ -38,25 +40,25 @@ public class SpawnHandle
             case Directions.Up:
                 SpawnVector = Vector3.up;
 
-                for (int i = 0; i < BoardCreator.Instance.boardSize[0]; i++) spawnBlocks.Add(BoardCreator.Instance[i, BoardCreator.Instance.boardSize[1] - 1]);
+                for (int i = 0; i < boardCreator.boardSize[0]; i++) spawnBlocks.Add(boardCreator[i, boardCreator.boardSize[1] - 1]);
                 break;
 
             case Directions.Right:
                 SpawnVector = Vector3.right;
 
-                for (int i = 0; i < BoardCreator.Instance.boardSize[1]; i++) spawnBlocks.Add(BoardCreator.Instance[BoardCreator.Instance.boardSize[0] - 1, i]);
+                for (int i = 0; i < boardCreator.boardSize[1]; i++) spawnBlocks.Add(boardCreator[boardCreator.boardSize[0] - 1, i]);
                 break;
 
             case Directions.Down:
                 SpawnVector = Vector3.down;
 
-                for (int i = BoardCreator.Instance.boardSize[0] - 1; i >= 0; i--) spawnBlocks.Add(BoardCreator.Instance[i, 0]);
+                for (int i = boardCreator.boardSize[0] - 1; i >= 0; i--) spawnBlocks.Add(boardCreator[i, 0]);
                 break;
 
             case Directions.Left:
                 SpawnVector = Vector3.left;
 
-                for (int i = BoardCreator.Instance.boardSize[1] - 1; i >= 0; i--) spawnBlocks.Add(BoardCreator.Instance[0, i]);
+                for (int i = boardCreator.boardSize[1] - 1; i >= 0; i--) spawnBlocks.Add(boardCreator[0, i]);
                 break;
         }
     }
@@ -72,7 +74,7 @@ public class SpawnHandle
 
         if (_block.BlockState == BlockState.Empty)
         {
-            spawnPang = ObjectManager.Instance.pangs.Dequeue();
+            spawnPang = ObjectManager.Instance.PangPool.Get();
             spawnPang.transform.position = _block.transform.position + SpawnVector;
             spawnPang.TargetBlock = _block;
 
@@ -85,7 +87,7 @@ public class SpawnHandle
     {
         if (_block.BlockState == BlockState.Empty)
         {
-            spawnPang = ObjectManager.Instance.pangs.Dequeue();
+            spawnPang = ObjectManager.Instance.PangPool.Get();
             spawnPang.transform.position = _block.transform.position;
             spawnPang.TargetBlock = _block;
 

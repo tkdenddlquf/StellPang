@@ -55,10 +55,12 @@ public class Pang : MonoBehaviour
 
     public void SetType(PastelType _type)
     {
+        GameManager manager = GameManager.Instance;
+
         StateBase = new PangType_Pastel(this);
 
-        pangImage.sprite = GameManager.Instance.pastelSprite_Idle[(int)_type];
-        pangGlow.color = GameManager.Instance.pastelGlow_Color[(int)_type];
+        pangImage.sprite = manager.pastelSprite_Idle[(int)_type];
+        pangGlow.color = manager.pastelGlow_Color[(int)_type];
 
         PangType = PangType.Pastel;
         PangTypeNum = (int)_type;
@@ -103,6 +105,6 @@ public class Pang : MonoBehaviour
 
         TargetBlock = null;
 
-        ObjectManager.Instance.pangs.Enqueue(this);
+        ObjectManager.Instance.PangPool.Release(this);
     }
 }

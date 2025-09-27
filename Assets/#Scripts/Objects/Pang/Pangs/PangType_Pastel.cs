@@ -10,13 +10,15 @@ public class PangType_Pastel : PangTypeBase
 
     public override void OnMove()
     {
+        LevelManager levelManager = LevelManager.Instance;
+
         if (pang.TargetBlock == null) return;
-        if (LevelManager.Instance.Match) return;
-        if (LevelManager.Instance.DestroyCount != 0) return;
+        if (levelManager.Match) return;
+        if (levelManager.DestroyCount != 0) return;
 
         if (pang.transform.position == pang.TargetBlock.transform.position)
         {
-            nextBlock = LevelManager.Instance.blockHandle[pang.TargetBlock.Pos, 0, -1];
+            nextBlock = levelManager.blockHandle[pang.TargetBlock.Pos, 0, -1];
 
             if (nextBlock != null)
             {
@@ -70,7 +72,7 @@ public class PangType_Pastel : PangTypeBase
             {
                 pang.TargetBlock = null;
 
-                ObjectManager.Instance.pangs.Enqueue(pang);
+                ObjectManager.Instance.PangPool.Release(pang);
 
                 IsDestroy = false;
 

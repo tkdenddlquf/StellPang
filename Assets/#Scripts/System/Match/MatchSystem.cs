@@ -26,23 +26,26 @@ public class MatchSystem
 
     public IEnumerator CheckMatch()
     {
-        if (LevelManager.Instance.Match) yield break;
+        LevelManager levelManager = LevelManager.Instance;
+        BoardCreator boardCreator = BoardCreator.Instance;
 
-        LevelManager.Instance.Match = true;
+        if (levelManager.Match) yield break;
+
+        levelManager.Match = true;
 
         if (hintHandle.hint != null && hintHandle.hint.gameObject.activeSelf) hintHandle.hint.Animator.Play("Idle");
 
         AllBlcoks.Clear();
         RemoveBlcoks.Clear();
 
-        checkVector[0] = (int)LevelManager.Instance.spawnHandle.SpawnVector.x;
-        checkVector[1] = (int)LevelManager.Instance.spawnHandle.SpawnVector.y;
+        checkVector[0] = (int)levelManager.spawnHandle.SpawnVector.x;
+        checkVector[1] = (int)levelManager.spawnHandle.SpawnVector.y;
 
-        for (int i = 0; i < BoardCreator.Instance.boardSize[0]; i++)
+        for (int i = 0; i < boardCreator.boardSize[0]; i++)
         {
-            for (int j = 0; j < BoardCreator.Instance.boardSize[1]; j++)
+            for (int j = 0; j < boardCreator.boardSize[1]; j++)
             {
-                if (IsCheckable(BoardCreator.Instance[i, j])) AllBlcoks.Add(BoardCreator.Instance[i, j]);
+                if (IsCheckable(boardCreator[i, j])) AllBlcoks.Add(boardCreator[i, j]);
             }
         }
 
@@ -142,26 +145,26 @@ public class MatchSystem
 
         if (RemoveBlcoks.Count == 0)
         {
-            LevelManager.Instance.Combo = 0;
-            LevelManager.Instance.blockHandle.SwapSelect();
+            levelManager.Combo = 0;
+            levelManager.blockHandle.SwapSelect();
 
-            if (hintHandle.CheckHint()) LevelManager.Instance.StartCoroutine(NoticeHint());
-            else if (LevelManager.Instance.itemPangs.Count != 0) Debug.Log("¾ÆÀÌÅÛ »ç¿ë");
+            if (hintHandle.CheckHint()) levelManager.StartCoroutine(NoticeHint());
+            else if (levelManager.itemPangs.Count != 0) Debug.Log("ì•„ì´í…œ ì‚¬ìš©");
             else
             {
-                Debug.Log("¸®¼Â");
+                Debug.Log("ë¦¬ì…‹");
 
                 yield return null;
 
-                for (int i = 0; i < BoardCreator.Instance.boardSize[0]; i++)
+                for (int i = 0; i < boardCreator.boardSize[0]; i++)
                 {
-                    for (int j = 0; j < BoardCreator.Instance.boardSize[1]; j++)
+                    for (int j = 0; j < boardCreator.boardSize[1]; j++)
                     {
-                        if (BoardCreator.Instance[i, j] == null) continue;
-                        if (BoardCreator.Instance[i, j].TargetPang == null) continue;
-                        if (BoardCreator.Instance[i, j].TargetPang.PangType == PangType.Distraction) continue;
+                        if (boardCreator[i, j] == null) continue;
+                        if (boardCreator[i, j].TargetPang == null) continue;
+                        if (boardCreator[i, j].TargetPang.PangType == PangType.Distraction) continue;
 
-                        BoardCreator.Instance[i, j].TargetPang.Remove();
+                        boardCreator[i, j].TargetPang.Remove();
                     }
                 }
             }
@@ -170,15 +173,15 @@ public class MatchSystem
         {
             hint = false;
 
-            LevelManager.Instance.Combo++;
+            levelManager.Combo++;
 
             foreach (Block _block in RemoveBlcoks) _block.TargetPang.StateBase.OnDestroy();
         }
 
-        yield return new WaitUntil(() => LevelManager.Instance.DestroyCount == 0);
+        yield return new WaitUntil(() => levelManager.DestroyCount == 0);
 
-        LevelManager.Instance.Match = false;
-        LevelManager.Instance.blockHandle.ClearSelect();
+        levelManager.Match = false;
+        levelManager.blockHandle.ClearSelect();
     }
 
     public IEnumerator NoticeHint()
@@ -188,9 +191,11 @@ public class MatchSystem
         hint = true;
         hintTime = Time.time;
 
+        LevelManager levelManager = LevelManager.Instance;
+
         while (true)
         {
-            if (Time.time - hintTime >= LevelManager.Instance.hintTime)
+            if (Time.time - hintTime >= levelManager.hintTime)
             {
                 hintHandle.hint.Animator.Play("Hint");
 

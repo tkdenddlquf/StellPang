@@ -26,6 +26,8 @@ public class BoardCreator : Singleton<BoardCreator>
 
     public void CreateBoard(BoardData _boardData)
     {
+        ObjectManager objectManager = ObjectManager.Instance;
+
         boardSize[0] = _boardData.blocks[0].blockNums.Length;
         boardSize[1] = _boardData.blocks.Length;
 
@@ -39,7 +41,7 @@ public class BoardCreator : Singleton<BoardCreator>
             {
                 if (_boardData.blocks[^(y + 1)].blockNums[x] == -1) continue;
 
-                Board[x, y] = ObjectManager.Instance.blocks.Dequeue();
+                Board[x, y] = objectManager.BlockPool.Get();
 
                 Board[x, y].Pos[0] = y;
                 Board[x, y].Pos[1] = x;

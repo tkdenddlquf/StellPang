@@ -19,39 +19,7 @@ public class BlockHandle
         }
     }
 
-    public bool CheckOutBlockIndex(int[] _pos, int _x, int _y)
-    {
-        switch (LevelManager.Instance.spawnHandle.SpawnDir)
-        {
-            case Directions.Up:
-                _x = _pos[0] + _x;
-                _y = _pos[1] + _y;
-                break;
-
-            case Directions.Right:
-                _x = _pos[0] + _y;
-                _y = _pos[1] - _x;
-                break;
-
-            case Directions.Down:
-                _x = _pos[0] - _x;
-                _y = _pos[1] - _y;
-                break;
-
-            case Directions.Left:
-                _x = _pos[0] - _y;
-                _y = _pos[1] + _x;
-                break;
-        }
-
-        if (_x < 0) return true;
-        if (_y < 0) return true;
-
-        if (_x > BoardCreator.Instance.boardSize[0] - 1) return true;
-        if (_y > BoardCreator.Instance.boardSize[1] - 1) return true;
-
-        return false;
-    }
+    public bool CheckOutBlockIndex(int[] _pos, int _x, int _y) => this[_pos, _x, _y] == null;
 
     public void SelectBlock(Block _block)
     {
