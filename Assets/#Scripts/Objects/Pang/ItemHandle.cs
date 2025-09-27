@@ -53,11 +53,13 @@ public class ItemHandle
 
     private void CheckLine(int _x, int _y, int _dir, int _max = -1)
     {
+        BlockHandle blockHandle = LevelManager.Instance.blockHandle;
+
         for (int i = _dir; ; i += _dir)
         {
-            if (LevelManager.Instance.blockHandle.CheckOutBlockIndex(itemBlock.Pos, _x * i, _y * i)) break;
+            if (blockHandle.CheckOutBlockIndex(itemBlock.Pos, _x * i, _y * i)) break;
 
-            removeBlcok = LevelManager.Instance.blockHandle[itemBlock.Pos, _x * i, _y * i];
+            removeBlcok = blockHandle[itemBlock.Pos, _x * i, _y * i];
 
             if (!Remove(Mathf.Abs(i), _max)) break;
         }
@@ -65,22 +67,24 @@ public class ItemHandle
 
     private void CheckBox(int _length)
     {
+        BlockHandle blockHandle = LevelManager.Instance.blockHandle;
+
         _length += 1;
 
         for (int i = 1; i < _length; i++)
         {
             for (int j = -i; j < i + 1; j++)
             {
-                if (!LevelManager.Instance.blockHandle.CheckOutBlockIndex(itemBlock.Pos, j, i))
+                if (!blockHandle.CheckOutBlockIndex(itemBlock.Pos, j, i))
                 {
-                    removeBlcok = LevelManager.Instance.blockHandle[itemBlock.Pos, j, i];
+                    removeBlcok = blockHandle[itemBlock.Pos, j, i];
 
                     Remove(Mathf.Abs(i));
                 }
 
-                if (!LevelManager.Instance.blockHandle.CheckOutBlockIndex(itemBlock.Pos, j, -i))
+                if (!blockHandle.CheckOutBlockIndex(itemBlock.Pos, j, -i))
                 {
-                    removeBlcok = LevelManager.Instance.blockHandle[itemBlock.Pos, j, -i];
+                    removeBlcok = blockHandle[itemBlock.Pos, j, -i];
 
                     Remove(Mathf.Abs(i));
                 }
@@ -91,16 +95,16 @@ public class ItemHandle
         {
             for (int j = -i + 1; j < i; j++)
             {
-                if (!LevelManager.Instance.blockHandle.CheckOutBlockIndex(itemBlock.Pos, i, j))
+                if (!blockHandle.CheckOutBlockIndex(itemBlock.Pos, i, j))
                 {
-                    removeBlcok = LevelManager.Instance.blockHandle[itemBlock.Pos, i, j];
+                    removeBlcok = blockHandle[itemBlock.Pos, i, j];
 
                     Remove(Mathf.Abs(i));
                 }
 
-                if (!LevelManager.Instance.blockHandle.CheckOutBlockIndex(itemBlock.Pos, -i, j))
+                if (!blockHandle.CheckOutBlockIndex(itemBlock.Pos, -i, j))
                 {
-                    removeBlcok = LevelManager.Instance.blockHandle[itemBlock.Pos, -i, j];
+                    removeBlcok = blockHandle[itemBlock.Pos, -i, j];
 
                     Remove(Mathf.Abs(i));
                 }

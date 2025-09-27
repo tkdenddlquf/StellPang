@@ -16,13 +16,13 @@ public class HintHandle
 
     public bool CheckHint()
     {
-        LevelManager levelManager = LevelManager.Instance;
         BoardCreator boardCreator = BoardCreator.Instance;
+        SpawnHandle spawnHandle = LevelManager.Instance.spawnHandle;
 
         hint = null;
 
-        matchSystem.checkVector[0] = (int)levelManager.spawnHandle.SpawnVector.x;
-        matchSystem.checkVector[1] = (int)levelManager.spawnHandle.SpawnVector.y;
+        matchSystem.checkVector[0] = (int)spawnHandle.SpawnVector.x;
+        matchSystem.checkVector[1] = (int)spawnHandle.SpawnVector.y;
 
         for (int i = 0; i < boardCreator.boardSize[0]; i++)
         {
@@ -62,92 +62,92 @@ public class HintHandle
 
     private Pang CheckSideUp(Block _block, int _x, int _y, bool _left)
     {
-        LevelManager levelManager = LevelManager.Instance;
+        BlockHandle blockHandle = LevelManager.Instance.blockHandle;
 
-        if (levelManager.blockHandle.CheckOutBlockIndex(_block.Pos, _x, _y)) return null;
+        if (blockHandle.CheckOutBlockIndex(_block.Pos, _x, _y)) return null;
 
-        record = levelManager.blockHandle[_block.Pos, _x, _y];
+        record = blockHandle[_block.Pos, _x, _y];
 
         matchSystem.RotateDir(ref _x, ref _y, _left);
 
         if (record == null) return null;
 
-        record = levelManager.blockHandle[record.Pos, _x, _y];
+        record = blockHandle[record.Pos, _x, _y];
 
         if (!CheckSameType(_block, record)) return null;
 
         matchSystem.RotateDir(ref _x, ref _y, _left);
 
-        if (!IsMoveable(levelManager.blockHandle[record.Pos, _x, _y])) return null;
+        if (!IsMoveable(blockHandle[record.Pos, _x, _y])) return null;
 
         matchSystem.RotateDir(ref _x, ref _y, _left);
 
-        if (!CheckSameType(_block, levelManager.blockHandle[_block.Pos, _x, _y])) return null;
+        if (!CheckSameType(_block, blockHandle[_block.Pos, _x, _y])) return null;
 
         return record.TargetPang;
     }
 
     private Pang CheckBothUp(Block _block, int _x, int _y)
     {
-        LevelManager levelManager = LevelManager.Instance;
+        BlockHandle blockHandle = LevelManager.Instance.blockHandle;
 
-        if (levelManager.blockHandle.CheckOutBlockIndex(_block.Pos, _x, _y)) return null;
+        if (blockHandle.CheckOutBlockIndex(_block.Pos, _x, _y)) return null;
 
-        record = levelManager.blockHandle[_block.Pos, _x, _y];
+        record = blockHandle[_block.Pos, _x, _y];
 
         if (!IsMoveable(record)) return null;
 
         matchSystem.RotateDir(ref _x, ref _y);
 
-        if (!CheckSameType(_block, levelManager.blockHandle[record.Pos, _x, _y])) return null;
+        if (!CheckSameType(_block, blockHandle[record.Pos, _x, _y])) return null;
 
         matchSystem.RotateDir(ref _x, ref _y, false);
         matchSystem.RotateDir(ref _x, ref _y, false);
 
-        if (!CheckSameType(_block, levelManager.blockHandle[record.Pos, _x, _y])) return null;
+        if (!CheckSameType(_block, blockHandle[record.Pos, _x, _y])) return null;
 
         return _block.TargetPang;
     }
 
     private Pang CheckOneWay(Block _block, int _x, int _y)
     {
-        LevelManager levelManager = LevelManager.Instance;
+        BlockHandle blockHandle = LevelManager.Instance.blockHandle;
 
-        if (levelManager.blockHandle.CheckOutBlockIndex(_block.Pos, _x, _y)) return null;
+        if (blockHandle.CheckOutBlockIndex(_block.Pos, _x, _y)) return null;
 
-        record = levelManager.blockHandle[_block.Pos, _x, _y];
+        record = blockHandle[_block.Pos, _x, _y];
 
         if (!IsMoveable(record)) return null;
 
-        if (!CheckSameType(_block, levelManager.blockHandle[record.Pos, _x, _y])) return null;
-        if (!CheckSameType(_block, levelManager.blockHandle[record.Pos, _x * 2, _y * 2])) return null;
+        if (!CheckSameType(_block, blockHandle[record.Pos, _x, _y])) return null;
+        if (!CheckSameType(_block, blockHandle[record.Pos, _x * 2, _y * 2])) return null;
 
         return _block.TargetPang;
     }
 
     private Pang CheckBox(Block _block, int _x, int _y)
     {
-        LevelManager levelManager = LevelManager.Instance;
+        BlockHandle blockHandle = LevelManager.Instance.blockHandle;
 
-        if (levelManager.blockHandle.CheckOutBlockIndex(_block.Pos, _x, _y)) return null;
+        if (blockHandle.CheckOutBlockIndex(_block.Pos, _x, _y)) return null;
 
-        record = levelManager.blockHandle[_block.Pos, _x, _y];
+        record = blockHandle[_block.Pos, _x, _y];
 
         if (!IsMoveable(record)) return null;
 
-        record = levelManager.blockHandle[record.Pos, _x, _y];
+        record = blockHandle[record.Pos, _x, _y];
 
         if (!CheckSameType(_block, record)) return null;
 
         matchSystem.RotateDir(ref _x, ref _y);
 
-        record = levelManager.blockHandle[record.Pos, _x, _y];
+        record = blockHandle[record.Pos, _x, _y];
 
         if (!CheckSameType(_block, record)) return null;
 
         matchSystem.RotateDir(ref _x, ref _y);
 
-        record = levelManager.blockHandle[record.Pos, _x, _y];
+        record = blockHandle[record.Pos, _x, _y];
 
         if (!CheckSameType(_block, record)) return null;
 

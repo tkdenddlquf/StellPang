@@ -14,12 +14,14 @@ public abstract class PangTypeBase
         {
             if (pang.isMove == value) return;
 
+            LevelManager levelManager = LevelManager.Instance;
+
             pang.isMove = value;
 
-            if (value) LevelManager.Instance.MoveCount++;
+            if (value) levelManager.MoveCount++;
             else
             {
-                LevelManager.Instance.MoveCount--;
+                levelManager.MoveCount--;
 
                 pang.selectImage.SetActive(false);
             }
@@ -33,11 +35,14 @@ public abstract class PangTypeBase
         {
             if (pang.isDestroy == value) return;
 
-            pang.isDestroy = value;
-            LevelManager.Instance.destroyAction?.Invoke(pang);
+            LevelManager levelManager = LevelManager.Instance;
 
-            if (value) LevelManager.Instance.DestroyCount++;
-            else LevelManager.Instance.DestroyCount--;
+            pang.isDestroy = value;
+
+            levelManager.destroyAction?.Invoke(pang);
+
+            if (value) levelManager.DestroyCount++;
+            else levelManager.DestroyCount--;
         }
     }
 
