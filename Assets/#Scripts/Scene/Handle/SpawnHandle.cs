@@ -13,13 +13,15 @@ public class SpawnHandle
 
     public void SetPastelType(int _count)
     {
-        PastelType _randType;
+        int typeLength = System.Enum.GetNames(typeof(PastelType)).Length;
 
-        while (pastelTypes.Count < _count)
+        for (int i = 0; i < typeLength; i++) pastelTypes.Add((PastelType)i);
+
+        while (pastelTypes.Count > _count)
         {
-            _randType = (PastelType)Random.Range(0, System.Enum.GetNames(typeof(PastelType)).Length);
+            int rand = Random.Range(0, pastelTypes.Count);
 
-            if (!pastelTypes.Contains(_randType)) pastelTypes.Add(_randType);
+            pastelTypes.RemoveAt(rand);
         }
     }
 
