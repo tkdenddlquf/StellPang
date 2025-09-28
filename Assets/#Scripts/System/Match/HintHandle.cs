@@ -21,9 +21,9 @@ public class HintHandle
 
         matchSystem.CheckDir = spawnHandle.SpawnDir;
 
-        for (int i = 0; i < boardCreator.boardSize[0]; i++)
+        for (int i = 0; i < boardCreator.BoardSize[0]; i++)
         {
-            for (int j = 0; j < boardCreator.boardSize[1]; j++)
+            for (int j = 0; j < boardCreator.BoardSize[1]; j++)
             {
                 Vector2Int pos = new(i, j);
                 Block block = boardCreator[pos];

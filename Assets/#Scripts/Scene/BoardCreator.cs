@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class BoardCreator : Singleton<BoardCreator>
 {
-    public SpriteMask mask;
+    [SerializeField] private SpriteMask mask;
 
-    public Vector2Int boardSize;
+    public Vector2Int BoardSize { get; private set; }
 
     private Color32 blockColor = new(10, 3, 36, 150);
 
@@ -14,7 +14,7 @@ public class BoardCreator : Singleton<BoardCreator>
     {
         get
         {
-            if (CheckInRange(pos)) return null;
+            if (!CheckInRange(pos)) return null;
 
             return Board[pos.y, pos.x];
         }
@@ -25,19 +25,19 @@ public class BoardCreator : Singleton<BoardCreator>
     public void CreateBoard(BoardData _boardData)
     {
         ObjectManager objectManager = ObjectManager.Instance;
+        BoardLineData[] boardLineDatas = _boardData.blocks;
 
-        boardSize.x = _boardData.blocks[0].blockNums.Length;
-        boardSize.y = _boardData.blocks.Length;
+        BoardSize = new(boardLineDatas[0].blockNums.Length, boardLineDatas.Length);
 
-        Board = new Block[boardSize.y, boardSize.x];
+        Board = new Block[BoardSize.y, BoardSize.x];
 
-        Vector2 _startPos = new(-(boardSize.x - 1f) / 2, -(boardSize.y - 1f) / 2);
+        Vector2 _startPos = new(-(BoardSize.x - 1f) / 2, -(BoardSize.y - 1f) / 2);
 
-        for (int x = 0; x < boardSize.y; x++)
+        for (int x = 0; x < BoardSize.y; x++)
         {
-            for (int y = 0; y < boardSize.x; y++)
+            for (int y = 0; y < BoardSize.x; y++)
             {
-                if (_boardData.blocks[^(y + 1)].blockNums[x] == -1) continue;
+                if (boardLineDatas[^(y + 1)].blockNums[x] == -1) continue;
 
                 Board[x, y] = objectManager.BlockPool.Get();
                 Board[x, y].Pos = new (y, x);
@@ -51,7 +51,7 @@ public class BoardCreator : Singleton<BoardCreator>
                 _startPos.x++;
             }
 
-            _startPos.x = -(boardSize.x - 1f) / 2;
+            _startPos.x = -(BoardSize.x - 1f) / 2;
             _startPos.y++;
         }
 
@@ -60,17 +60,17 @@ public class BoardCreator : Singleton<BoardCreator>
 
     private void CreateMask()
     {
-        Texture2D _texture = new(boardSize.x, boardSize.y)
+        Texture2D _texture = new(BoardSize.x, BoardSize.y)
         {
             filterMode = FilterMode.Point
         };
 
-        Color32[] _colors = new Color32[boardSize.x * boardSize.y];
+        Color32[] _colors = new Color32[BoardSize.x * BoardSize.y];
         int _count = 0;
 
-        for (int x = 0; x < boardSize.y; x++)
+        for (int x = 0; x < BoardSize.y; x++)
         {
-            for (int y = 0; y < boardSize.x; y++)
+            for (int y = 0; y < BoardSize.x; y++)
             {
                 if (Board[x, y] != null) _colors[_count++] = Color.white;
                 else _colors[_count++] = new(0, 0, 0, 0);
@@ -80,7 +80,7 @@ public class BoardCreator : Singleton<BoardCreator>
         _texture.SetPixels32(_colors);
         _texture.Apply();
 
-        mask.sprite = Sprite.Create(_texture, new(0, 0, boardSize.x, boardSize.y), new(0.5f, 0.5f), 1);
+        mask.sprite = Sprite.Create(_texture, new(0, 0, BoardSize.x, BoardSize.y), new(0.5f, 0.5f), 1);
     }
 
     public bool CheckInRange(Vector2Int pos)
@@ -88,8 +88,8 @@ public class BoardCreator : Singleton<BoardCreator>
         if (pos.x < 0) return false;
         if (pos.y < 0) return false;
 
-        if (pos.x > boardSize.x - 1) return false;
-        if (pos.y > boardSize.y - 1) return false;
+        if (pos.x > BoardSize.x - 1) return false;
+        if (pos.y > BoardSize.y - 1) return false;
 
         return true;
     }

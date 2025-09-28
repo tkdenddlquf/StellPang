@@ -34,32 +34,32 @@ public class SpawnHandle
         spawnBlocks.Clear();
         SpawnDirType = _dir;
 
-        Vector2Int maxSize = boardCreator.boardSize - Vector2Int.one;
+        Vector2Int maxSize = boardCreator.BoardSize - Vector2Int.one;
 
         switch (_dir)
         {
             case Directions.Up:
                 SpawnDir = Vector2Int.up;
 
-                for (int i = 0; i < boardCreator.boardSize[0]; i++) spawnBlocks.Add(boardCreator[new(i, maxSize.y)]);
+                for (int i = 0; i < boardCreator.BoardSize[0]; i++) spawnBlocks.Add(boardCreator[new(i, maxSize.y)]);
                 break;
 
             case Directions.Right:
                 SpawnDir = Vector2Int.right;
 
-                for (int i = 0; i < boardCreator.boardSize[1]; i++) spawnBlocks.Add(boardCreator[new(maxSize.x, i)]);
+                for (int i = 0; i < boardCreator.BoardSize[1]; i++) spawnBlocks.Add(boardCreator[new(maxSize.x, i)]);
                 break;
 
             case Directions.Down:
                 SpawnDir = Vector2Int.down;
 
-                for (int i = boardCreator.boardSize[0] - 1; i >= 0; i--) spawnBlocks.Add(boardCreator[new(i, 0)]);
+                for (int i = boardCreator.BoardSize[0] - 1; i >= 0; i--) spawnBlocks.Add(boardCreator[new(i, 0)]);
                 break;
 
             case Directions.Left:
                 SpawnDir = Vector2Int.left;
 
-                for (int i = boardCreator.boardSize[1] - 1; i >= 0; i--) spawnBlocks.Add(boardCreator[new(0, i)]);
+                for (int i = boardCreator.BoardSize[1] - 1; i >= 0; i--) spawnBlocks.Add(boardCreator[new(0, i)]);
                 break;
         }
     }

@@ -26,7 +26,7 @@ public class PangType_Distraction : PangTypeBase
     {
         if (pang.TargetBlock.BlockState == BlockState.Filled) return;
 
-        LevelManager levelManager = LevelManager.Instance;
+        BlockHandle blockHandle = LevelManager.Instance.blockHandle;
 
         pang.TargetBlock.BlockState = BlockState.Filled;
 
@@ -35,10 +35,10 @@ public class PangType_Distraction : PangTypeBase
             Vector2Int currentPos = pang.TargetBlock.Pos;
             Vector2Int moveVector = new(0, -i);
 
-            nextBlock = levelManager.blockHandle[currentPos, moveVector];
+            nextBlock = blockHandle[currentPos, moveVector];
 
             if (nextBlock != null) nextBlock.Blocked = true;
-            else if (levelManager.blockHandle.CheckOutBlockIndex(currentPos, moveVector)) break;
+            else if (blockHandle.CheckOutBlockIndex(currentPos, moveVector)) break;
         }
     }
 
