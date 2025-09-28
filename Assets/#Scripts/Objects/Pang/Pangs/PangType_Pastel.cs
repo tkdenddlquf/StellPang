@@ -18,7 +18,7 @@ public class PangType_Pastel : PangTypeBase
 
         if (pang.transform.position == pang.TargetBlock.transform.position)
         {
-            nextBlock = levelManager.blockHandle[pang.TargetBlock.Pos, 0, -1];
+            nextBlock = levelManager.blockHandle[pang.TargetBlock.Pos, Vector2Int.down];
 
             if (nextBlock != null)
             {
@@ -32,8 +32,8 @@ public class PangType_Pastel : PangTypeBase
                 }
             }
 
-            if (CheckSideBlock(1, -1)) return;
-            if (CheckSideBlock(-1, -1)) return;
+            if (CheckSideBlock(new(1, -1))) return;
+            if (CheckSideBlock(-Vector2Int.one)) return;
 
             pang.TargetBlock.BlockState = BlockState.Filled;
 

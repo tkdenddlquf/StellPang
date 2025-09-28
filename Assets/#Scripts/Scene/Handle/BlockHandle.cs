@@ -4,22 +4,9 @@ public class BlockHandle
 {
     public Block[] selectBlocks = new Block[2];
 
-    public Block this[int[] _pos, int _x, int _y]
-    {
-        get
-        {
-            return LevelManager.Instance.spawnHandle.SpawnDir switch
-            {
-                Directions.Up => BoardCreator.Instance[_pos[0] + _x, _pos[1] + _y],
-                Directions.Right => BoardCreator.Instance[_pos[0] + _y, _pos[1] - _x],
-                Directions.Down => BoardCreator.Instance[_pos[0] - _x, _pos[1] - _y],
-                Directions.Left => BoardCreator.Instance[_pos[0] - _y, _pos[1] + _x],
-                _ => null
-            };
-        }
-    }
+    public Block this[Vector2Int currentPos, Vector2Int moveVector] => BoardCreator.Instance[LevelManager.Instance.spawnHandle.SpawnDir, currentPos, moveVector];
 
-    public bool CheckOutBlockIndex(int[] _pos, int _x, int _y) => this[_pos, _x, _y] == null;
+    public bool CheckOutBlockIndex(Vector2Int currentPos, Vector2Int moveVector) => BoardCreator.Instance.CheckInRange(LevelManager.Instance.spawnHandle.SpawnDir, currentPos, moveVector);
 
     public void SelectBlock(Block _block)
     {
@@ -42,10 +29,10 @@ public class BlockHandle
         }
         else if (selectBlocks[1] == null)
         {
-            if (this[selectBlocks[0].Pos, 0, 1] == _block ||
-                this[selectBlocks[0].Pos, 1, 0] == _block ||
-                this[selectBlocks[0].Pos, 0, -1] == _block ||
-                this[selectBlocks[0].Pos, -1, 0] == _block)
+            if (this[selectBlocks[0].Pos, Vector2Int.up] == _block ||
+                this[selectBlocks[0].Pos, Vector2Int.right] == _block ||
+                this[selectBlocks[0].Pos, Vector2Int.down] == _block ||
+                this[selectBlocks[0].Pos, Vector2Int.right] == _block)
             {
                 if (_block.TargetPang != null)
                 {

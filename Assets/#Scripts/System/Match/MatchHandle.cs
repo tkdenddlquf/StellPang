@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public class MatchHandle
 {
@@ -11,21 +12,27 @@ public class MatchHandle
         matchSystem = _system;
     }
 
-    public bool CheckT(Block _block, int _x, int _y)
+    public bool CheckT(Block _block, Vector2Int pos)
     {
+        BlockHandle blockHandle = LevelManager.Instance.blockHandle;
+
         RecordBlcoks.Clear();
         RecordBlcoks.Add(_block);
 
         for (int i = 1; i < 3; i++)
         {
-            if (!CheckSameType(_block, LevelManager.Instance.blockHandle[_block.Pos, _x * i, _y * i])) return false;
+            Vector2Int checkPos = pos * i;
+
+            if (!CheckSameType(_block, blockHandle[_block.Pos, checkPos])) return false;
         }
 
-        matchSystem.RotateDir(ref _x, ref _y);
+        pos = matchSystem.RotateDir(pos);
 
         for (int i = 1; i < 3; i++)
         {
-            if (!CheckSameType(_block, LevelManager.Instance.blockHandle[RecordBlcoks[1].Pos, _x * i, _y * i])) return false;
+            Vector2Int checkPos = pos * i;
+
+            if (!CheckSameType(_block, blockHandle[RecordBlcoks[1].Pos, checkPos])) return false;
         }
 
         AddRemoveList();
@@ -33,21 +40,27 @@ public class MatchHandle
         return true;
     }
 
-    public bool CheckL(Block _block, int _x, int _y)
+    public bool CheckL(Block _block, Vector2Int pos)
     {
+        BlockHandle blockHandle = LevelManager.Instance.blockHandle;
+
         RecordBlcoks.Clear();
         RecordBlcoks.Add(_block);
 
         for (int i = 1; i < 3; i++)
         {
-            if (!CheckSameType(_block, LevelManager.Instance.blockHandle[_block.Pos, _x * i, _y * i])) return false;
+            Vector2Int checkPos = pos * i;
+
+            if (!CheckSameType(_block, blockHandle[_block.Pos, checkPos])) return false;
         }
 
-        matchSystem.RotateDir(ref _x, ref _y);
+        pos = matchSystem.RotateDir(pos);
 
         for (int i = 1; i < 3; i++)
         {
-            if (!CheckSameType(_block, LevelManager.Instance.blockHandle[_block.Pos, _x * i, _y * i])) return false;
+            Vector2Int checkPos = pos * i;
+
+            if (!CheckSameType(_block, blockHandle[_block.Pos, checkPos])) return false;
         }
 
         AddRemoveList();
@@ -57,26 +70,32 @@ public class MatchHandle
 
     public bool CheckBox(Block _block)
     {
+        BlockHandle blockHandle = LevelManager.Instance.blockHandle;
+
         RecordBlcoks.Clear();
         RecordBlcoks.Add(_block);
 
-        if (!CheckSameType(_block, LevelManager.Instance.blockHandle[_block.Pos, 0, 1])) return false;
-        if (!CheckSameType(_block, LevelManager.Instance.blockHandle[_block.Pos, 1, 0])) return false;
-        if (!CheckSameType(_block, LevelManager.Instance.blockHandle[_block.Pos, 1, 1])) return false;
+        if (!CheckSameType(_block, blockHandle[_block.Pos, Vector2Int.up])) return false;
+        if (!CheckSameType(_block, blockHandle[_block.Pos, Vector2Int.right])) return false;
+        if (!CheckSameType(_block, blockHandle[_block.Pos, Vector2Int.one])) return false;
 
         AddRemoveList();
 
         return true;
     }
 
-    public bool CheckLine(Block _block, int _x, int _y, int _max)
+    public bool CheckLine(Block _block, Vector2Int pos, int _max)
     {
+        BlockHandle blockHandle = LevelManager.Instance.blockHandle;
+
         RecordBlcoks.Clear();
         RecordBlcoks.Add(_block);
 
         for (int i = 1; i < _max; i++)
         {
-            if (!CheckSameType(_block, LevelManager.Instance.blockHandle[_block.Pos, _x * i, _y * i])) return false;
+            Vector2Int checkPos = pos * i;
+
+            if (!CheckSameType(_block, blockHandle[_block.Pos, checkPos])) return false;
         }
 
         AddRemoveList();
@@ -105,19 +124,22 @@ public class MatchHandle
 
     public Block GetSwapBlock(int _index)
     {
+        BlockHandle blockHandle = LevelManager.Instance.blockHandle;
+
         for (int i = 0; i < RecordBlcoks.Count; i++)
         {
-            if (RecordBlcoks[i] == LevelManager.Instance.blockHandle.selectBlocks[0])
+            if (RecordBlcoks[i] == blockHandle.selectBlocks[0])
             {
                 matchSystem.RemoveBlcoks.Remove(RecordBlcoks[i]);
 
-                return LevelManager.Instance.blockHandle.selectBlocks[0];
+                return blockHandle.selectBlocks[0];
             }
-            if (RecordBlcoks[i] == LevelManager.Instance.blockHandle.selectBlocks[1])
+
+            if (RecordBlcoks[i] == blockHandle.selectBlocks[1])
             {
                 matchSystem.RemoveBlcoks.Remove(RecordBlcoks[i]);
 
-                return LevelManager.Instance.blockHandle.selectBlocks[1];
+                return blockHandle.selectBlocks[1];
             }
         }
 

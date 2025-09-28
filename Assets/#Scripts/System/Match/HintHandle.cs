@@ -5,8 +5,6 @@ public class HintHandle
     public Pang hint;
     public Block record;
 
-    public readonly int[] dir = new int[2];
-
     private readonly MatchSystem matchSystem;
 
     public HintHandle(MatchSystem _system)
@@ -21,38 +19,40 @@ public class HintHandle
 
         hint = null;
 
-        matchSystem.checkVector[0] = (int)spawnHandle.SpawnVector.x;
-        matchSystem.checkVector[1] = (int)spawnHandle.SpawnVector.y;
+        matchSystem.CheckVector = new((int)spawnHandle.SpawnVector.x, (int)spawnHandle.SpawnVector.y);
 
         for (int i = 0; i < boardCreator.boardSize[0]; i++)
         {
             for (int j = 0; j < boardCreator.boardSize[1]; j++)
             {
-                if (!IsCheckable(boardCreator[i, j])) continue;
+                Vector2Int pos = new(i, j);
+                Block block = boardCreator[pos];
+
+                if (!IsCheckable(block)) continue;
 
                 for (int k = 0; k < 4; k++)
                 {
-                    hint = CheckSideUp(boardCreator[i, j], matchSystem.checkVector[0], matchSystem.checkVector[1], true);
+                    hint = CheckSideUp(block, matchSystem.CheckVector, true);
 
                     if (hint != null) return true;
 
-                    hint = CheckSideUp(boardCreator[i, j], matchSystem.checkVector[0], matchSystem.checkVector[1], false);
+                    hint = CheckSideUp(block, matchSystem.CheckVector, false);
 
                     if (hint != null) return true;
 
-                    hint = CheckBothUp(boardCreator[i, j], matchSystem.checkVector[0], matchSystem.checkVector[1]);
+                    hint = CheckBothUp(block, matchSystem.CheckVector);
 
                     if (hint != null) return true;
 
-                    hint = CheckOneWay(boardCreator[i, j], matchSystem.checkVector[0], matchSystem.checkVector[1]);
+                    hint = CheckOneWay(block, matchSystem.CheckVector);
 
                     if (hint != null) return true;
 
-                    hint = CheckBox(boardCreator[i, j], matchSystem.checkVector[0], matchSystem.checkVector[1]);
+                    hint = CheckBox(block, matchSystem.CheckVector);
 
                     if (hint != null) return true;
 
-                    matchSystem.RotateDir(ref matchSystem.checkVector[0], ref matchSystem.checkVector[1]);
+                    matchSystem.CheckVector = matchSystem.RotateDir(matchSystem.CheckVector);
                 }
             }
         }
@@ -60,94 +60,94 @@ public class HintHandle
         return false;
     }
 
-    private Pang CheckSideUp(Block _block, int _x, int _y, bool _left)
+    private Pang CheckSideUp(Block _block, Vector2Int pos, bool _left)
     {
         BlockHandle blockHandle = LevelManager.Instance.blockHandle;
 
-        if (blockHandle.CheckOutBlockIndex(_block.Pos, _x, _y)) return null;
+        if (blockHandle.CheckOutBlockIndex(_block.Pos, pos)) return null;
 
-        record = blockHandle[_block.Pos, _x, _y];
+        record = blockHandle[_block.Pos, pos];
 
-        matchSystem.RotateDir(ref _x, ref _y, _left);
+        pos = matchSystem.RotateDir(pos, _left);
 
         if (record == null) return null;
 
-        record = blockHandle[record.Pos, _x, _y];
+        record = blockHandle[record.Pos, pos];
 
         if (!CheckSameType(_block, record)) return null;
 
-        matchSystem.RotateDir(ref _x, ref _y, _left);
+        pos = matchSystem.RotateDir(pos, _left);
 
-        if (!IsMoveable(blockHandle[record.Pos, _x, _y])) return null;
+        if (!IsMoveable(blockHandle[record.Pos, pos])) return null;
 
-        matchSystem.RotateDir(ref _x, ref _y, _left);
+        pos = matchSystem.RotateDir(pos, _left);
 
-        if (!CheckSameType(_block, blockHandle[_block.Pos, _x, _y])) return null;
+        if (!CheckSameType(_block, blockHandle[_block.Pos, pos])) return null;
 
         return record.TargetPang;
     }
 
-    private Pang CheckBothUp(Block _block, int _x, int _y)
+    private Pang CheckBothUp(Block _block, Vector2Int pos)
     {
         BlockHandle blockHandle = LevelManager.Instance.blockHandle;
 
-        if (blockHandle.CheckOutBlockIndex(_block.Pos, _x, _y)) return null;
+        if (blockHandle.CheckOutBlockIndex(_block.Pos, pos)) return null;
 
-        record = blockHandle[_block.Pos, _x, _y];
+        record = blockHandle[_block.Pos, pos];
 
         if (!IsMoveable(record)) return null;
 
-        matchSystem.RotateDir(ref _x, ref _y);
+        pos = matchSystem.RotateDir(pos);
 
-        if (!CheckSameType(_block, blockHandle[record.Pos, _x, _y])) return null;
+        if (!CheckSameType(_block, blockHandle[record.Pos, pos])) return null;
 
-        matchSystem.RotateDir(ref _x, ref _y, false);
-        matchSystem.RotateDir(ref _x, ref _y, false);
+        pos = matchSystem.RotateDir(pos, false);
+        pos = matchSystem.RotateDir(pos, false);
 
-        if (!CheckSameType(_block, blockHandle[record.Pos, _x, _y])) return null;
+        if (!CheckSameType(_block, blockHandle[record.Pos, pos])) return null;
 
         return _block.TargetPang;
     }
 
-    private Pang CheckOneWay(Block _block, int _x, int _y)
+    private Pang CheckOneWay(Block _block, Vector2Int pos)
     {
         BlockHandle blockHandle = LevelManager.Instance.blockHandle;
 
-        if (blockHandle.CheckOutBlockIndex(_block.Pos, _x, _y)) return null;
+        if (blockHandle.CheckOutBlockIndex(_block.Pos, pos)) return null;
 
-        record = blockHandle[_block.Pos, _x, _y];
+        record = blockHandle[_block.Pos, pos];
 
         if (!IsMoveable(record)) return null;
 
-        if (!CheckSameType(_block, blockHandle[record.Pos, _x, _y])) return null;
-        if (!CheckSameType(_block, blockHandle[record.Pos, _x * 2, _y * 2])) return null;
+        if (!CheckSameType(_block, blockHandle[record.Pos, pos])) return null;
+        if (!CheckSameType(_block, blockHandle[record.Pos, pos * 2])) return null;
 
         return _block.TargetPang;
     }
 
-    private Pang CheckBox(Block _block, int _x, int _y)
+    private Pang CheckBox(Block _block, Vector2Int pos)
     {
         BlockHandle blockHandle = LevelManager.Instance.blockHandle;
 
-        if (blockHandle.CheckOutBlockIndex(_block.Pos, _x, _y)) return null;
+        if (blockHandle.CheckOutBlockIndex(_block.Pos, pos)) return null;
 
-        record = blockHandle[_block.Pos, _x, _y];
+        record = blockHandle[_block.Pos, pos];
 
         if (!IsMoveable(record)) return null;
 
-        record = blockHandle[record.Pos, _x, _y];
+        record = blockHandle[record.Pos, pos];
 
         if (!CheckSameType(_block, record)) return null;
 
-        matchSystem.RotateDir(ref _x, ref _y);
+        pos = matchSystem.RotateDir(pos);
 
-        record = blockHandle[record.Pos, _x, _y];
+        record = blockHandle[record.Pos, pos];
 
         if (!CheckSameType(_block, record)) return null;
 
-        matchSystem.RotateDir(ref _x, ref _y);
+        pos = matchSystem.RotateDir(pos);
 
-        record = blockHandle[record.Pos, _x, _y];
+        record = blockHandle[record.Pos, pos];
 
         if (!CheckSameType(_block, record)) return null;
 

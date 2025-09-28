@@ -26,13 +26,17 @@ public class TimeAttackManager : MonoBehaviour
         spawnHandle.SetDirection(boardData.dir);
         spawnHandle.SetPastelType(boardData.pangCount);
 
-        for (int _y = 0; _y < boardData.blocks.Length; _y++)
-        {
-            for (int _x = 0; _x < boardData.blocks[^(_y + 1)].blockNums.Length; _x++)
-            {
-                if (boardData.blocks[^(_y + 1)].blockNums[_x] <= 0) continue;
+        BoardLineData[] boardLineDatas = boardData.blocks;
 
-                spawnHandle.SpawnPang(boardCreator[_x, _y], (DistractionType)(boardData.blocks[^(_y + 1)].blockNums[_x] - 1));
+        for (int _y = 0; _y < boardLineDatas.Length; _y++)
+        {
+            int[] blockNums = boardLineDatas[^(_y + 1)].blockNums;
+
+            for (int _x = 0; _x < blockNums.Length; _x++)
+            {
+                if (blockNums[_x] <= 0) continue;
+
+                spawnHandle.SpawnPang(boardCreator[new(_x, _y)], (DistractionType)(blockNums[_x] - 1));
             }
         }
 

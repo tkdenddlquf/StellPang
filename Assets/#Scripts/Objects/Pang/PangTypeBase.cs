@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public abstract class PangTypeBase
 {
     protected Pang pang;
@@ -60,9 +62,9 @@ public abstract class PangTypeBase
         removeDelay = _delay;
     }
 
-    protected bool CheckSideBlock(int _x, int _y)
+    protected bool CheckSideBlock(Vector2Int pos)
     {
-        nextBlock = LevelManager.Instance.blockHandle[pang.TargetBlock.Pos, _x, _y];
+        nextBlock = LevelManager.Instance.blockHandle[pang.TargetBlock.Pos, pos];
 
         if (nextBlock != null)
         {

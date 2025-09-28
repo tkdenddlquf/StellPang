@@ -14,27 +14,27 @@ public class ItemHandle
         switch (itemBlock.TargetPang.PangTypeNum)
         {
             case 0: // BombVert
-                CheckLine(0, 1, 1);
-                CheckLine(0, 1, -1);
+                CheckLine(Vector2Int.up, 1);
+                CheckLine(Vector2Int.up, -1);
                 break;
 
             case 1: // BombHori
-                CheckLine(1, 0, 1);
-                CheckLine(1, 0, -1);
+                CheckLine(Vector2Int.right, 1);
+                CheckLine(Vector2Int.right, -1);
                 break;
 
             case 2: // BombSmallCross
-                CheckLine(0, 1, 1, 1);
-                CheckLine(0, 1, -1, 1);
-                CheckLine(1, 0, 1, 1);
-                CheckLine(1, 0, -1, 1);
+                CheckLine(Vector2Int.up, 1, 1);
+                CheckLine(Vector2Int.up, -1, 1);
+                CheckLine(Vector2Int.right, 1, 1);
+                CheckLine(Vector2Int.right, -1, 1);
                 break;
 
             case 3: // BombLargeCross
-                CheckLine(0, 1, 1);
-                CheckLine(0, 1, -1);
-                CheckLine(1, 0, 1);
-                CheckLine(1, 0, -1);
+                CheckLine(Vector2Int.up, 1);
+                CheckLine(Vector2Int.up, -1);
+                CheckLine(Vector2Int.right, 1);
+                CheckLine(Vector2Int.right, -1);
                 break;
 
             case 4: // Bomb3x3
@@ -51,15 +51,17 @@ public class ItemHandle
         }
     }
 
-    private void CheckLine(int _x, int _y, int _dir, int _max = -1)
+    private void CheckLine(Vector2Int pos, int _dir, int _max = -1)
     {
         BlockHandle blockHandle = LevelManager.Instance.blockHandle;
 
         for (int i = _dir; ; i += _dir)
         {
-            if (blockHandle.CheckOutBlockIndex(itemBlock.Pos, _x * i, _y * i)) break;
+            Vector2Int checkPos = pos * i;
 
-            removeBlcok = blockHandle[itemBlock.Pos, _x * i, _y * i];
+            if (blockHandle.CheckOutBlockIndex(itemBlock.Pos, checkPos)) break;
+
+            removeBlcok = blockHandle[itemBlock.Pos, checkPos];
 
             if (!Remove(Mathf.Abs(i), _max)) break;
         }
@@ -75,16 +77,20 @@ public class ItemHandle
         {
             for (int j = -i; j < i + 1; j++)
             {
-                if (!blockHandle.CheckOutBlockIndex(itemBlock.Pos, j, i))
+                Vector2Int pos = new(j, i);
+
+                if (!blockHandle.CheckOutBlockIndex(itemBlock.Pos, pos))
                 {
-                    removeBlcok = blockHandle[itemBlock.Pos, j, i];
+                    removeBlcok = blockHandle[itemBlock.Pos, pos];
 
                     Remove(Mathf.Abs(i));
                 }
 
-                if (!blockHandle.CheckOutBlockIndex(itemBlock.Pos, j, -i))
+                pos = new(j, -i);
+
+                if (!blockHandle.CheckOutBlockIndex(itemBlock.Pos, pos))
                 {
-                    removeBlcok = blockHandle[itemBlock.Pos, j, -i];
+                    removeBlcok = blockHandle[itemBlock.Pos, pos];
 
                     Remove(Mathf.Abs(i));
                 }
@@ -95,16 +101,20 @@ public class ItemHandle
         {
             for (int j = -i + 1; j < i; j++)
             {
-                if (!blockHandle.CheckOutBlockIndex(itemBlock.Pos, i, j))
+                Vector2Int pos = new(i, j);
+
+                if (!blockHandle.CheckOutBlockIndex(itemBlock.Pos, pos))
                 {
-                    removeBlcok = blockHandle[itemBlock.Pos, i, j];
+                    removeBlcok = blockHandle[itemBlock.Pos, pos];
 
                     Remove(Mathf.Abs(i));
                 }
 
-                if (!blockHandle.CheckOutBlockIndex(itemBlock.Pos, -i, j))
+                pos = new(-i, j);
+
+                if (!blockHandle.CheckOutBlockIndex(itemBlock.Pos, pos))
                 {
-                    removeBlcok = blockHandle[itemBlock.Pos, -i, j];
+                    removeBlcok = blockHandle[itemBlock.Pos, pos];
 
                     Remove(Mathf.Abs(i));
                 }

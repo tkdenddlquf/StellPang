@@ -19,51 +19,81 @@ public class StageManager : MonoBehaviour
 
     public void Stage(int _round)
     {
+        BoardCreator boardCreator = BoardCreator.Instance;
+        SpawnHandle spawnHandle = LevelManager.Instance.spawnHandle;
+
         boardData = JsonUtility.FromJson<BoardData>(Resources.Load<TextAsset>("Json/Stage_" + _round).text);
 
-        BoardCreator.Instance.CreateBoard(boardData);
+        boardCreator.CreateBoard(boardData);
 
-        LevelManager.Instance.spawnHandle.SetDirection(boardData.dir);
-        LevelManager.Instance.spawnHandle.SetPastelType(boardData.pangCount);
+        spawnHandle.SetDirection(boardData.dir);
+        spawnHandle.SetPastelType(boardData.pangCount);
 
-        for (int _y = 0; _y < boardData.blocks.Length; _y++)
+        BoardLineData[] boardLineDatas = boardData.blocks;
+
+        for (int _y = 0; _y < boardLineDatas.Length; _y++)
         {
-            for (int _x = 0; _x < boardData.blocks[^(_y + 1)].blockNums.Length; _x++)
-            {
-                if (boardData.blocks[^(_y + 1)].blockNums[_x] <= 0) continue;
+            int[] blockNums = boardLineDatas[^(_y + 1)].blockNums;
 
-                LevelManager.Instance.spawnHandle.SpawnPang(BoardCreator.Instance[_x, _y], (DistractionType)(boardData.blocks[^(_y + 1)].blockNums[_x] - 1));
+            for (int _x = 0; _x < blockNums.Length; _x++)
+            {
+                if (blockNums[_x] <= 0) continue;
+
+                spawnHandle.SpawnPang(boardCreator[new(_x, _y)], (DistractionType)(blockNums[_x] - 1));
             }
         }
 
         missions.Clear();
 
-        for (int i = 0; i < boardData.missions.Length; i++)
+        BoardMissionData[] missionDatas = boardData.missions;
+
+        for (int i = 0; i < missionDatas.Length; i++)
         {
-            if (boardData.missions[i].type == PangType.Pastel)
+            PangType type = missionDatas[i].type;
+
+            if (type == PangType.Pastel)
             {
-                missions.Add(boardData.missions[i].type, new() { { LevelManager.Instance.spawnHandle.GetPangType(boardData.missions[i].typeNum), new int[] { 0, boardData.missions[i].count } } });
+                int key = spawnHandle.GetPangType(missionDatas[i].typeNum);
+                int[] value = new int[] { 0, missionDatas[i].count };
+
+                Dictionary<int, int[]> data = new() { { key, value } };
+
+                missions.Add(type, data);
             }
-            else missions.Add(boardData.missions[i].type, new() { { boardData.missions[i].typeNum, new int[] { 0, boardData.missions[i].count } } });
+            else
+            {
+                int key = missionDatas[i].typeNum;
+                int[] value = new int[] { 0, missionDatas[i].count };
+
+                Dictionary<int, int[]> data = new() { { key, value } };
+
+                missions.Add(type, data);
+            }
 
             missionClear[1]++;
         }
 
-        LevelManager.Instance.spawnHandle.SpawnAllPangs();
+        spawnHandle.SpawnAllPangs();
     }
 
     private void DestroyAction(Pang _pang)
     {
         if (!missions.ContainsKey(_pang.PangType)) return;
-        if (!missions[_pang.PangType].ContainsKey(_pang.PangTypeNum)) return;
 
-        if (missions[_pang.PangType][_pang.PangTypeNum][0] == missions[_pang.PangType][_pang.PangTypeNum][1]) return;
+        int typeNum = _pang.PangTypeNum;
+        Dictionary<int, int[]> data = missions[_pang.PangType];
 
-        missions[_pang.PangType][_pang.PangTypeNum][0]++;
+        if (!data.ContainsKey(typeNum)) return;
 
-        if (missions[_pang.PangType][_pang.PangTypeNum][0] >= missions[_pang.PangType][_pang.PangTypeNum][1])
+        int[] value = data[typeNum];
+
+        if (value[0] == value[1]) return;
+
+        data[typeNum][0]++;
+
+        if (value[0] >= value[1])
         {
-            missions[_pang.PangType][_pang.PangTypeNum][0] = missions[_pang.PangType][_pang.PangTypeNum][1];
+            data[typeNum][0] = data[typeNum][1];
 
             missionClear[0]++;
         }

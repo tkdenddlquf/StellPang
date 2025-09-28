@@ -7,13 +7,13 @@ public class MatchSystem
     private bool hint;
     private bool match;
 
+    public Vector2Int CheckVector { get; set; }
+
     private float hintTime;
 
     public List<Block> AllBlcoks { get; } = new();
 
     public HashSet<Block> RemoveBlcoks { get; } = new();
-
-    public readonly int[] checkVector = new int[2];
 
     private readonly HintHandle hintHandle;
     private readonly MatchHandle matchHandle;
@@ -38,25 +38,29 @@ public class MatchSystem
         AllBlcoks.Clear();
         RemoveBlcoks.Clear();
 
-        checkVector[0] = (int)levelManager.spawnHandle.SpawnVector.x;
-        checkVector[1] = (int)levelManager.spawnHandle.SpawnVector.y;
+        Vector2 spawnVector = levelManager.spawnHandle.SpawnVector;
+
+        CheckVector = new((int)spawnVector.x, (int)spawnVector.y);
 
         for (int i = 0; i < boardCreator.boardSize[0]; i++)
         {
             for (int j = 0; j < boardCreator.boardSize[1]; j++)
             {
-                if (IsCheckable(boardCreator[i, j])) AllBlcoks.Add(boardCreator[i, j]);
+                Vector2Int pos = new(i, j);
+                Block block = boardCreator[pos];
+
+                if (IsCheckable(block)) AllBlcoks.Add(block);
             }
         }
 
         for (int i = 0; i < 2; i++)
         {
-            if (LevelManager.Instance.blockHandle.selectBlocks[i] != null)
+            if (levelManager.blockHandle.selectBlocks[i] != null)
             {
-                if (LevelManager.Instance.blockHandle.selectBlocks[i].TargetPang == null) continue;
-                if (LevelManager.Instance.blockHandle.selectBlocks[i].TargetPang.PangType != PangType.Item) continue;
+                if (levelManager.blockHandle.selectBlocks[i].TargetPang == null) continue;
+                if (levelManager.blockHandle.selectBlocks[i].TargetPang.PangType != PangType.Item) continue;
 
-                RemoveBlcoks.Add(LevelManager.Instance.blockHandle.selectBlocks[i]);
+                RemoveBlcoks.Add(levelManager.blockHandle.selectBlocks[i]);
             }
         }
 
@@ -64,7 +68,7 @@ public class MatchSystem
         {
             for (int j = 0; j < 4; j++)
             {
-                match = matchHandle.CheckT(AllBlcoks[i], checkVector[0], checkVector[1]);
+                match = matchHandle.CheckT(AllBlcoks[i], CheckVector);
 
                 if (match)
                 {
@@ -75,14 +79,14 @@ public class MatchSystem
                     break;
                 }
 
-                RotateDir(ref checkVector[0], ref checkVector[1]);
+                CheckVector = RotateDir(CheckVector);
             }
 
             if (match) continue;
 
             for (int j = 0; j < 4; j++)
             {
-                match = matchHandle.CheckL(AllBlcoks[i], checkVector[0], checkVector[1]);
+                match = matchHandle.CheckL(AllBlcoks[i], CheckVector);
 
                 if (match)
                 {
@@ -93,7 +97,7 @@ public class MatchSystem
                     break;
                 }
 
-                RotateDir(ref checkVector[0], ref checkVector[1]);
+                CheckVector = RotateDir(CheckVector);
             }
 
             if (match) continue;
@@ -110,7 +114,7 @@ public class MatchSystem
         {
             for (int j = 0; j < 2; j++)
             {
-                match = matchHandle.CheckLine(AllBlcoks[i], checkVector[0], checkVector[1], 4);
+                match = matchHandle.CheckLine(AllBlcoks[i], CheckVector, 4);
 
                 if (match)
                 {
@@ -122,24 +126,23 @@ public class MatchSystem
                     break;
                 }
 
-                RotateDir(ref checkVector[0], ref checkVector[1], false);
+                CheckVector = RotateDir(CheckVector, false);
             }
 
             if (match) continue;
 
-            checkVector[0] = (int)LevelManager.Instance.spawnHandle.SpawnVector.x;
-            checkVector[1] = (int)LevelManager.Instance.spawnHandle.SpawnVector.y;
+            CheckVector = new((int)spawnVector.x, (int)spawnVector.y);
 
             for (int j = 0; j < 2; j++)
             {
-                if (matchHandle.CheckLine(AllBlcoks[i], checkVector[0], checkVector[1], 3))
+                if (matchHandle.CheckLine(AllBlcoks[i], CheckVector, 3))
                 {
                     i -= 2;
 
                     break;
                 }
 
-                RotateDir(ref checkVector[0], ref checkVector[1], false);
+                CheckVector = RotateDir(CheckVector, false);
             }
         }
 
@@ -160,11 +163,13 @@ public class MatchSystem
                 {
                     for (int j = 0; j < boardCreator.boardSize[1]; j++)
                     {
-                        if (boardCreator[i, j] == null) continue;
-                        if (boardCreator[i, j].TargetPang == null) continue;
-                        if (boardCreator[i, j].TargetPang.PangType == PangType.Distraction) continue;
+                        Vector2Int pos = new(i, j);
 
-                        boardCreator[i, j].TargetPang.Remove();
+                        if (boardCreator[pos] == null) continue;
+                        if (boardCreator[pos].TargetPang == null) continue;
+                        if (boardCreator[pos].TargetPang.PangType == PangType.Distraction) continue;
+
+                        boardCreator[pos].TargetPang.Remove();
                     }
                 }
             }
@@ -216,53 +221,55 @@ public class MatchSystem
         return true;
     }
 
-    public void RotateDir(ref int _x, ref int _y, bool _minus = true)
+    public Vector2Int RotateDir(Vector2Int dir, bool _minus = true)
     {
         if (_minus)
         {
-            if (_x == 0 && _y == 1)
+            if (dir.x == 0 && dir.y == 1)
             {
-                _x = -1;
-                _y = 0;
+                dir.x = -1;
+                dir.y = 0;
             }
-            else if (_x == -1 && _y == 0)
+            else if (dir.x == -1 && dir.y == 0)
             {
-                _x = 0;
-                _y = -1;
+                dir.x = 0;
+                dir.y = -1;
             }
-            else if (_x == 0 && _y == -1)
+            else if (dir.x == 0 && dir.y == -1)
             {
-                _x = 1;
-                _y = 0;
+                dir.x = 1;
+                dir.y = 0;
             }
-            else if (_x == 1 && _y == 0)
+            else if (dir.x == 1 && dir.y == 0)
             {
-                _x = 0;
-                _y = 1;
+                dir.x = 0;
+                dir.y = 1;
             }
         }
         else
         {
-            if (_x == 0 && _y == 1)
+            if (dir.x == 0 && dir.y == 1)
             {
-                _x = 1;
-                _y = 0;
+                dir.x = 1;
+                dir.y = 0;
             }
-            else if (_x == 1 && _y == 0)
+            else if (dir.x == 1 && dir.y == 0)
             {
-                _x = 0;
-                _y = -1;
+                dir.x = 0;
+                dir.y = -1;
             }
-            else if (_x == 0 && _y == -1)
+            else if (dir.x == 0 && dir.y == -1)
             {
-                _x = -1;
-                _y = 0;
+                dir.x = -1;
+                dir.y = 0;
             }
-            else if (_x == -1 && _y == 0)
+            else if (dir.x == -1 && dir.y == 0)
             {
-                _x = 0;
-                _y = 1;
+                dir.x = 0;
+                dir.y = 1;
             }
         }
+
+        return dir;
     }
 }

@@ -4,47 +4,43 @@ public class BoardCreator : Singleton<BoardCreator>
 {
     public SpriteMask mask;
 
+    public Vector2Int boardSize;
+
     private Color32 blockColor = new(10, 3, 36, 150);
 
     public Block[,] Board { get; private set; }
 
-    public Block this[int _x, int _y]
+    public Block this[Vector2Int pos]
     {
         get
         {
-            if (_x < 0) return null;
-            if (_y < 0) return null;
+            if (CheckInRange(pos)) return null;
 
-            if (_x > boardSize[0] - 1) return null;
-            if (_y > boardSize[1] - 1) return null;
-
-            return Board[_y, _x];
+            return Board[pos.y, pos.x];
         }
     }
 
-    public readonly int[] boardSize = new int[2];
+    public Block this[Directions dir, Vector2Int currentPos, Vector2Int moveVector] => this[GetMovePos(dir, currentPos, moveVector)];
 
     public void CreateBoard(BoardData _boardData)
     {
         ObjectManager objectManager = ObjectManager.Instance;
 
-        boardSize[0] = _boardData.blocks[0].blockNums.Length;
-        boardSize[1] = _boardData.blocks.Length;
+        boardSize.x = _boardData.blocks[0].blockNums.Length;
+        boardSize.y = _boardData.blocks.Length;
 
-        Board = new Block[boardSize[1], boardSize[0]];
+        Board = new Block[boardSize.y, boardSize.x];
 
-        Vector2 _startPos = new(-(boardSize[0] - 1f) / 2, -(boardSize[1] - 1f) / 2);
+        Vector2 _startPos = new(-(boardSize.x - 1f) / 2, -(boardSize.y - 1f) / 2);
 
-        for (int x = 0; x < boardSize[1]; x++)
+        for (int x = 0; x < boardSize.y; x++)
         {
-            for (int y = 0; y < boardSize[0]; y++)
+            for (int y = 0; y < boardSize.x; y++)
             {
                 if (_boardData.blocks[^(y + 1)].blockNums[x] == -1) continue;
 
                 Board[x, y] = objectManager.BlockPool.Get();
-
-                Board[x, y].Pos[0] = y;
-                Board[x, y].Pos[1] = x;
+                Board[x, y].Pos = new (y, x);
 
                 if ((x + y) % 2 == 0) blockColor.a = 150;
                 else blockColor.a = 200;
@@ -55,7 +51,7 @@ public class BoardCreator : Singleton<BoardCreator>
                 _startPos.x++;
             }
 
-            _startPos.x = -(boardSize[0] - 1f) / 2;
+            _startPos.x = -(boardSize.x - 1f) / 2;
             _startPos.y++;
         }
 
@@ -64,17 +60,17 @@ public class BoardCreator : Singleton<BoardCreator>
 
     private void CreateMask()
     {
-        Texture2D _texture = new(boardSize[0], boardSize[1])
+        Texture2D _texture = new(boardSize.x, boardSize.y)
         {
             filterMode = FilterMode.Point
         };
 
-        Color32[] _colors = new Color32[boardSize[0] * boardSize[1]];
+        Color32[] _colors = new Color32[boardSize.x * boardSize.y];
         int _count = 0;
 
-        for (int x = 0; x < boardSize[1]; x++)
+        for (int x = 0; x < boardSize.y; x++)
         {
-            for (int y = 0; y < boardSize[0]; y++)
+            for (int y = 0; y < boardSize.x; y++)
             {
                 if (Board[x, y] != null) _colors[_count++] = Color.white;
                 else _colors[_count++] = new(0, 0, 0, 0);
@@ -84,6 +80,36 @@ public class BoardCreator : Singleton<BoardCreator>
         _texture.SetPixels32(_colors);
         _texture.Apply();
 
-        mask.sprite = Sprite.Create(_texture, new(0, 0, boardSize[0], boardSize[1]), new(0.5f, 0.5f), 1);
+        mask.sprite = Sprite.Create(_texture, new(0, 0, boardSize.x, boardSize.y), new(0.5f, 0.5f), 1);
+    }
+
+    public bool CheckInRange(Vector2Int pos)
+    {
+        if (pos.x < 0) return false;
+        if (pos.y < 0) return false;
+
+        if (pos.x > boardSize.x - 1) return false;
+        if (pos.y > boardSize.y - 1) return false;
+
+        return true;
+    }
+
+    public bool CheckInRange(Directions dir, Vector2Int currentPos, Vector2Int moveVector)
+    {
+        Vector2Int pos = GetMovePos(dir, currentPos, moveVector);
+
+        return CheckInRange(pos);
+    }
+
+    public Vector2Int GetMovePos(Directions dir, Vector2Int currentPos, Vector2Int moveVector)
+    {
+        return dir switch
+        {
+            Directions.Up => new(currentPos.x + moveVector.x, currentPos.y + moveVector.y),
+            Directions.Right => new(currentPos.x + moveVector.y, currentPos.y - moveVector.x),
+            Directions.Down => new(currentPos.x - moveVector.x, currentPos.y - moveVector.y),
+            Directions.Left => new(currentPos.x - moveVector.y, currentPos.y + moveVector.x),
+            _ => currentPos
+        };
     }
 }

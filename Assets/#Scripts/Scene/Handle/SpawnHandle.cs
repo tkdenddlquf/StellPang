@@ -23,10 +23,7 @@ public class SpawnHandle
         }
     }
 
-    public int GetPangType(int _type)
-    {
-        return (int)pastelTypes[_type];
-    }
+    public int GetPangType(int _type) => (int)pastelTypes[_type];
 
     public void SetDirection(Directions _dir)
     {
@@ -35,30 +32,32 @@ public class SpawnHandle
         spawnBlocks.Clear();
         SpawnDir = _dir;
 
+        Vector2Int maxSize = boardCreator.boardSize - Vector2Int.one;
+
         switch (_dir)
         {
             case Directions.Up:
                 SpawnVector = Vector3.up;
 
-                for (int i = 0; i < boardCreator.boardSize[0]; i++) spawnBlocks.Add(boardCreator[i, boardCreator.boardSize[1] - 1]);
+                for (int i = 0; i < boardCreator.boardSize[0]; i++) spawnBlocks.Add(boardCreator[new(i, maxSize.y)]);
                 break;
 
             case Directions.Right:
                 SpawnVector = Vector3.right;
 
-                for (int i = 0; i < boardCreator.boardSize[1]; i++) spawnBlocks.Add(boardCreator[boardCreator.boardSize[0] - 1, i]);
+                for (int i = 0; i < boardCreator.boardSize[1]; i++) spawnBlocks.Add(boardCreator[new(maxSize.x, i)]);
                 break;
 
             case Directions.Down:
                 SpawnVector = Vector3.down;
 
-                for (int i = boardCreator.boardSize[0] - 1; i >= 0; i--) spawnBlocks.Add(boardCreator[i, 0]);
+                for (int i = boardCreator.boardSize[0] - 1; i >= 0; i--) spawnBlocks.Add(boardCreator[new(i, 0)]);
                 break;
 
             case Directions.Left:
                 SpawnVector = Vector3.left;
 
-                for (int i = boardCreator.boardSize[1] - 1; i >= 0; i--) spawnBlocks.Add(boardCreator[0, i]);
+                for (int i = boardCreator.boardSize[1] - 1; i >= 0; i--) spawnBlocks.Add(boardCreator[new(0, i)]);
                 break;
         }
     }
@@ -70,7 +69,7 @@ public class SpawnHandle
 
     public void SpawnPang(Block _block)
     {
-        if (LevelManager.Instance.blockHandle[_block.Pos, 0, 1] != null) return;
+        if (LevelManager.Instance.blockHandle[_block.Pos, Vector2Int.up] != null) return;
 
         if (_block.BlockState == BlockState.Empty)
         {

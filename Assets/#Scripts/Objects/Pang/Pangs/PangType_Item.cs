@@ -20,7 +20,7 @@ public class PangType_Item : PangTypeBase
 
         if (pang.transform.position == pang.TargetBlock.transform.position)
         {
-            nextBlock = levelManager.blockHandle[pang.TargetBlock.Pos, 0, -1];
+            nextBlock = levelManager.blockHandle[pang.TargetBlock.Pos, Vector2Int.left];
 
             if (nextBlock != null)
             {
@@ -34,8 +34,8 @@ public class PangType_Item : PangTypeBase
                 }
             }
 
-            if (CheckSideBlock(1, -1)) return;
-            if (CheckSideBlock(-1, -1)) return;
+            if (CheckSideBlock(new(1, -1))) return;
+            if (CheckSideBlock(-Vector2Int.one)) return;
 
             pang.TargetBlock.BlockState = BlockState.Filled;
 
@@ -69,6 +69,8 @@ public class PangType_Item : PangTypeBase
 
         yield return new WaitUntil(() => pang.Animator.GetCurrentAnimatorStateInfo(0).IsName("Destroy"));
 
+        ObjectManager objectManager = ObjectManager.Instance;
+
         itemHandle.UseItem(pang.TargetBlock);
 
         while (true)
@@ -77,7 +79,7 @@ public class PangType_Item : PangTypeBase
             {
                 pang.TargetBlock = null;
 
-                ObjectManager.Instance.PangPool.Release(pang);
+                objectManager.PangPool.Release(pang);
 
                 IsDestroy = false;
 

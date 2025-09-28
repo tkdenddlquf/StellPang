@@ -9,7 +9,7 @@ public class Block : MonoBehaviour
     public Pang TargetPang { get; set; }
     public BlockState BlockState { get; set; }
 
-    public int[] Pos { get; set; } = new int[2];
+    public Vector2Int Pos { get; set; }
 
     public void OnMouseDown()
     {

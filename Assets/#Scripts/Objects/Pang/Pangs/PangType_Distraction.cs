@@ -32,10 +32,13 @@ public class PangType_Distraction : PangTypeBase
 
         for (int i = 1; ; i++)
         {
-            nextBlock = levelManager.blockHandle[pang.TargetBlock.Pos, 0, -i];
+            Vector2Int currentPos = pang.TargetBlock.Pos;
+            Vector2Int moveVector = new(0, -i);
+
+            nextBlock = levelManager.blockHandle[currentPos, moveVector];
 
             if (nextBlock != null) nextBlock.Blocked = true;
-            else if (levelManager.blockHandle.CheckOutBlockIndex(pang.TargetBlock.Pos, 0, -i)) break;
+            else if (levelManager.blockHandle.CheckOutBlockIndex(currentPos, moveVector)) break;
         }
     }
 
