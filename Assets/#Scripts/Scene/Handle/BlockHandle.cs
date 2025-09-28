@@ -4,9 +4,9 @@ public class BlockHandle
 {
     public Block[] selectBlocks = new Block[2];
 
-    public Block this[Vector2Int currentPos, Vector2Int moveVector] => BoardCreator.Instance[LevelManager.Instance.spawnHandle.SpawnDir, currentPos, moveVector];
+    public Block this[Vector2Int currentPos, Vector2Int moveVector] => BoardCreator.Instance[LevelManager.Instance.spawnHandle.SpawnDirType, currentPos, moveVector];
 
-    public bool CheckOutBlockIndex(Vector2Int currentPos, Vector2Int moveVector) => BoardCreator.Instance.CheckInRange(LevelManager.Instance.spawnHandle.SpawnDir, currentPos, moveVector);
+    public bool CheckOutBlockIndex(Vector2Int currentPos, Vector2Int moveVector) => BoardCreator.Instance.CheckInRange(LevelManager.Instance.spawnHandle.SpawnDirType, currentPos, moveVector);
 
     public void SelectBlock(Block _block)
     {

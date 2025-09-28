@@ -19,7 +19,7 @@ public class HintHandle
 
         hint = null;
 
-        matchSystem.CheckVector = new((int)spawnHandle.SpawnVector.x, (int)spawnHandle.SpawnVector.y);
+        matchSystem.CheckDir = spawnHandle.SpawnDir;
 
         for (int i = 0; i < boardCreator.boardSize[0]; i++)
         {
@@ -32,27 +32,27 @@ public class HintHandle
 
                 for (int k = 0; k < 4; k++)
                 {
-                    hint = CheckSideUp(block, matchSystem.CheckVector, true);
+                    hint = CheckSideUp(block, matchSystem.CheckDir, true);
 
                     if (hint != null) return true;
 
-                    hint = CheckSideUp(block, matchSystem.CheckVector, false);
+                    hint = CheckSideUp(block, matchSystem.CheckDir, false);
 
                     if (hint != null) return true;
 
-                    hint = CheckBothUp(block, matchSystem.CheckVector);
+                    hint = CheckBothUp(block, matchSystem.CheckDir);
 
                     if (hint != null) return true;
 
-                    hint = CheckOneWay(block, matchSystem.CheckVector);
+                    hint = CheckOneWay(block, matchSystem.CheckDir);
 
                     if (hint != null) return true;
 
-                    hint = CheckBox(block, matchSystem.CheckVector);
+                    hint = CheckBox(block, matchSystem.CheckDir);
 
                     if (hint != null) return true;
 
-                    matchSystem.CheckVector = matchSystem.RotateDir(matchSystem.CheckVector);
+                    matchSystem.CheckDir = matchSystem.RotateDir(matchSystem.CheckDir);
                 }
             }
         }

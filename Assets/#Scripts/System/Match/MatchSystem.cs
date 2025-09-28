@@ -7,7 +7,7 @@ public class MatchSystem
     private bool hint;
     private bool match;
 
-    public Vector2Int CheckVector { get; set; }
+    public Vector2Int CheckDir { get; set; }
 
     private float hintTime;
 
@@ -38,9 +38,7 @@ public class MatchSystem
         AllBlcoks.Clear();
         RemoveBlcoks.Clear();
 
-        Vector2 spawnVector = levelManager.spawnHandle.SpawnVector;
-
-        CheckVector = new((int)spawnVector.x, (int)spawnVector.y);
+        CheckDir = levelManager.spawnHandle.SpawnDir;
 
         for (int i = 0; i < boardCreator.boardSize[0]; i++)
         {
@@ -68,7 +66,7 @@ public class MatchSystem
         {
             for (int j = 0; j < 4; j++)
             {
-                match = matchHandle.CheckT(AllBlcoks[i], CheckVector);
+                match = matchHandle.CheckT(AllBlcoks[i], CheckDir);
 
                 if (match)
                 {
@@ -79,14 +77,14 @@ public class MatchSystem
                     break;
                 }
 
-                CheckVector = RotateDir(CheckVector);
+                CheckDir = RotateDir(CheckDir);
             }
 
             if (match) continue;
 
             for (int j = 0; j < 4; j++)
             {
-                match = matchHandle.CheckL(AllBlcoks[i], CheckVector);
+                match = matchHandle.CheckL(AllBlcoks[i], CheckDir);
 
                 if (match)
                 {
@@ -97,7 +95,7 @@ public class MatchSystem
                     break;
                 }
 
-                CheckVector = RotateDir(CheckVector);
+                CheckDir = RotateDir(CheckDir);
             }
 
             if (match) continue;
@@ -114,7 +112,7 @@ public class MatchSystem
         {
             for (int j = 0; j < 2; j++)
             {
-                match = matchHandle.CheckLine(AllBlcoks[i], CheckVector, 4);
+                match = matchHandle.CheckLine(AllBlcoks[i], CheckDir, 4);
 
                 if (match)
                 {
@@ -126,23 +124,23 @@ public class MatchSystem
                     break;
                 }
 
-                CheckVector = RotateDir(CheckVector, false);
+                CheckDir = RotateDir(CheckDir, false);
             }
 
             if (match) continue;
 
-            CheckVector = new((int)spawnVector.x, (int)spawnVector.y);
+            CheckDir = levelManager.spawnHandle.SpawnDir;
 
             for (int j = 0; j < 2; j++)
             {
-                if (matchHandle.CheckLine(AllBlcoks[i], CheckVector, 3))
+                if (matchHandle.CheckLine(AllBlcoks[i], CheckDir, 3))
                 {
                     i -= 2;
 
                     break;
                 }
 
-                CheckVector = RotateDir(CheckVector, false);
+                CheckDir = RotateDir(CheckDir, false);
             }
         }
 
@@ -159,17 +157,20 @@ public class MatchSystem
 
                 yield return null;
 
-                for (int i = 0; i < boardCreator.boardSize[0]; i++)
+                Vector2Int boardSize = boardCreator.boardSize;
+
+                for (int i = 0; i < boardSize.x; i++)
                 {
-                    for (int j = 0; j < boardCreator.boardSize[1]; j++)
+                    for (int j = 0; j < boardSize.y; j++)
                     {
                         Vector2Int pos = new(i, j);
+                        Block block = boardCreator[pos];
 
-                        if (boardCreator[pos] == null) continue;
-                        if (boardCreator[pos].TargetPang == null) continue;
-                        if (boardCreator[pos].TargetPang.PangType == PangType.Distraction) continue;
+                        if (block == null) continue;
+                        if (block.TargetPang == null) continue;
+                        if (block.TargetPang.PangType == PangType.Distraction) continue;
 
-                        boardCreator[pos].TargetPang.Remove();
+                        block.TargetPang.Remove();
                     }
                 }
             }
@@ -221,9 +222,9 @@ public class MatchSystem
         return true;
     }
 
-    public Vector2Int RotateDir(Vector2Int dir, bool _minus = true)
+    public Vector2Int RotateDir(Vector2Int dir, bool counterClockwide = true)
     {
-        if (_minus)
+        if (counterClockwide)
         {
             if (dir.x == 0 && dir.y == 1)
             {

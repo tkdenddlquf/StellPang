@@ -8,8 +8,8 @@ public class SpawnHandle
     private readonly List<Block> spawnBlocks = new();
     private readonly List<PastelType> pastelTypes = new();
 
-    public Directions SpawnDir { get; private set; }
-    public Vector3 SpawnVector { get; private set; }
+    public Vector2Int SpawnDir { get; private set; }
+    public Directions SpawnDirType { get; private set; }
 
     public void SetPastelType(int _count)
     {
@@ -30,32 +30,32 @@ public class SpawnHandle
         BoardCreator boardCreator = BoardCreator.Instance;
 
         spawnBlocks.Clear();
-        SpawnDir = _dir;
+        SpawnDirType = _dir;
 
         Vector2Int maxSize = boardCreator.boardSize - Vector2Int.one;
 
         switch (_dir)
         {
             case Directions.Up:
-                SpawnVector = Vector3.up;
+                SpawnDir = Vector2Int.up;
 
                 for (int i = 0; i < boardCreator.boardSize[0]; i++) spawnBlocks.Add(boardCreator[new(i, maxSize.y)]);
                 break;
 
             case Directions.Right:
-                SpawnVector = Vector3.right;
+                SpawnDir = Vector2Int.right;
 
                 for (int i = 0; i < boardCreator.boardSize[1]; i++) spawnBlocks.Add(boardCreator[new(maxSize.x, i)]);
                 break;
 
             case Directions.Down:
-                SpawnVector = Vector3.down;
+                SpawnDir = Vector2Int.down;
 
                 for (int i = boardCreator.boardSize[0] - 1; i >= 0; i--) spawnBlocks.Add(boardCreator[new(i, 0)]);
                 break;
 
             case Directions.Left:
-                SpawnVector = Vector3.left;
+                SpawnDir = Vector2Int.left;
 
                 for (int i = boardCreator.boardSize[1] - 1; i >= 0; i--) spawnBlocks.Add(boardCreator[new(0, i)]);
                 break;
@@ -74,7 +74,7 @@ public class SpawnHandle
         if (_block.BlockState == BlockState.Empty)
         {
             spawnPang = ObjectManager.Instance.PangPool.Get();
-            spawnPang.transform.position = _block.transform.position + SpawnVector;
+            spawnPang.transform.position = (Vector2)_block.transform.position + (Vector2)SpawnDir;
             spawnPang.TargetBlock = _block;
 
             spawnPang.SetType(pastelTypes[Random.Range(0, pastelTypes.Count)]);
